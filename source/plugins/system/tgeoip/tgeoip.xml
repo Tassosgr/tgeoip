@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.4" type="plugin" group="system" method="upgrade">
+	<name>plg_system_tgeoip</name>
+	<description>PLG_SYSTEM_TGEOIP_DESC</description>
+	<version>0.1</version>
+	<creationDate>06 Mar 2017</creationDate>
+	<author>Tassos Marinos</author>
+	<copyright>Copyright © 2017 Tassos Marinos All Rights Reserved</copyright>
+	<license>http://www.gnu.org/licenses/gpl-3.0.html GNU/GPL</license>
+	<authorEmail>info@tassos.gr</authorEmail>
+	<authorUrl>http://www.tassos.gr</authorUrl>
+	<scriptfile>script.install.php</scriptfile>
+	<files>
+		<filename plugin="tgeoip">tgeoip.php</filename>
+		<filename>script.install.helper.php</filename>
+		<folder>db</folder>
+		<folder>field</folder>
+		<folder>helper</folder>
+		<folder>language</folder>
+		<folder>vendor</folder>
+	</files>
+	<config>
+		<fields name="params" addfieldpath="/plugins/system/tgeoip/field">
+			<fieldset name="basic" addfieldpath="/plugins/system/nrframework/fields">
+				<field name="blockStart" type="nr_well" 
+					label="PLG_SYSTEM_TGEOIP_DATABASE"
+					description="PLG_SYSTEM_TGEOIP_UPDATE_DATABASE_DESC"
+				/>
+				<field name="updatebutton" type="TG_UpdateButton"
+					label="PLG_SYSTEM_TGEOIP_UPDATE_DATABASE"
+					description="PLG_SYSTEM_TGEOIP_UPDATE_DATABASE_DESC"
+				/>
+				<field name="lastupdated" type="TG_LastUpdated"
+					label="PLG_SYSTEM_TGEOIP_LAST_UPDATED"
+					description="PLG_SYSTEM_TGEOIP_LAST_UPDATED_DESC"
+				/>
+				<field name="blockEnd" type="nr_well" 
+					end="1"
+				/>
+				<field name="blockStart1" type="nr_well" 
+					label="PLG_SYSTEM_TGEOIP_CHECK_IP"
+					description="PLG_SYSTEM_TGEOIP_CHECK_IP_DESC"
+				/>
+				<field name="testdrive" type="TG_TestDrive"
+					label="PLG_SYSTEM_TGEOIP_CHECK_IP"
+					description="PLG_SYSTEM_TGEOIP_CHECK_IP_DESC"
+				/>
+				<field name="blockEnd1" type="nr_well" 
+					end="1"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

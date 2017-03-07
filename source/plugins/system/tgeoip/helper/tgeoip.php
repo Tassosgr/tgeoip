@@ -1,0 +1,456 @@
+<?php
+
+/**
+ * @package         @pkg.name@
+ * @version         @pkg.version@ @vUf@
+ *
+ * @author          Tassos Marinos <info@tassos.gr>
+ * @link            http://www.tassos.gr
+ * @copyright       Copyright © 2016 Tassos Marinos All Rights Reserved
+ * @license         GNU GPLv3 <http://www.gnu.org/licenses/gpl.html> or later
+ */
+
+defined('_JEXEC') or die;
+
+use GeoIp2\Database\Reader;
+
+class TGeoIP
+{
+	/**
+	 * The MaxMind GeoLite database reader
+	 *
+	 * @var    Reader
+	 */
+	private $reader = null;
+
+	/**
+	 * Records for IP addresses already looked up
+	 *
+	 * @var   array
+	 *
+	 */
+	private $lookups = array();
+
+	/**
+	 *  Max Age Database before it needs an update
+	 *
+	 *  @var  integer
+	 */
+	private $maxAge = 15;
+
+	/**
+	 *  Database File name
+	 *
+	 *  @var  string
+	 */
+	private $DBFileName = 'GeoLite2-City';
+
+	/**
+	 *  Database Remote URL
+	 *
+	 *  @var  string
+	 */
+	private $DBUpdateURL = 'http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz';
+
+	/**
+	 * Public constructor. Loads up the GeoLite2 database.
+	 */
+	public function __construct()
+	{
+		if (!function_exists('bcadd') || !function_exists('bcmul') || !function_exists('bcpow'))
+		{
+			require_once __DIR__ . '/fakebcmath.php';
+		}
+
+		// Check we have a valid GeoLite2 database
+		$filePath = $this->getDBPath();
+
+		if (!JFile::exists($filePath))
+		{
+			$this->reader = null;
+		}
+
+		try
+		{
+			$this->reader = new Reader($filePath);
+		}
+		// If anything goes wrong, MaxMind will raise an exception, resulting in a WSOD. Let's be sure to catch everything.
+		catch(\Exception $e)
+		{
+			$this->reader = null;
+		}
+	}
+
+	/**
+	 * Gets the ISO country code from an IP address
+	 *
+	 * @param   string  $ip  The IP address to look up
+	 *
+	 * @return  mixed  A string with the country ISO code if found, false if the IP address is not found, null if the db can't be loaded
+	 */
+	public function getCountryCode($ip)
+	{
+		$record = $this->getRecord($ip);
+
+		if ($record === false)
+		{
+			return false;
+		}
+
+		if (is_null($record))
+		{
+			return false;
+		}
+
+		return $record->country->isoCode;
+	}
+
+	/**
+	 * Gets the country name from an IP address
+	 *
+	 * @param   string  $ip      The IP address to look up
+	 * @param   string  $locale  The locale of the country name, e.g 'de' to return the country names in German. If not specified the English (US) names are returned.
+	 *
+	 * @return  mixed  A string with the country name if found, false if the IP address is not found, null if the db can't be loaded
+	 */
+	public function getCountryName($ip, $locale = null)
+	{
+		$record = $this->getRecord($ip);
+
+		if ($record === false)
+		{
+			return false;
+		}
+
+		if (is_null($record))
+		{
+			return false;
+		}
+
+		if (empty($locale))
+		{
+			return $record->country->name;
+		}
+
+		return $record->country->names[$locale];
+	}
+
+	/**
+	 * Gets the continent ISO code from an IP address
+	 *
+	 * @param   string  $ip      The IP address to look up
+	 *
+	 * @return  mixed  A string with the country name if found, false if the IP address is not found, null if the db can't be loaded
+	 */
+	public function getContinent($ip, $locale = null)
+	{
+		$record = $this->getRecord($ip);
+
+		if ($record === false)
+		{
+			return false;
+		}
+
+		if (is_null($record))
+		{
+			return false;
+		}
+
+		return $record->continent->code;
+	}
+
+	/**
+	 * Gets the continent name from an IP address
+	 *
+	 * @param   string  $ip      The IP address to look up
+	 * @param   string  $locale  The locale of the continent name, e.g 'de' to return the country names in German. If not specified the English (US) names are returned.
+	 *
+	 * @return  mixed  A string with the country name if found, false if the IP address is not found, null if the db can't be loaded
+	 */
+	public function getContinentName($ip, $locale = null)
+	{
+		$record = $this->getRecord($ip);
+
+		if ($record === false)
+		{
+			return false;
+		}
+
+		if (is_null($record))
+		{
+			return false;
+		}
+
+		if (empty($locale))
+		{
+			return $record->continent;
+		}
+
+		return $record->continent->names[$locale];
+	}
+
+	/**
+	 * Gets a raw record from an IP address
+	 *
+	 * @param   string  $ip  The IP address to look up
+	 *
+	 * @return  mixed  A \GeoIp2\Model\City record if found, false if the IP address is not found, null if the db can't be loaded
+	 */
+	public function getRecord($ip)
+	{
+		$needsToLoad = !array_key_exists($ip, $this->lookups);
+
+		if ($needsToLoad)
+		{
+			try
+			{
+				if (!is_null($this->reader))
+				{
+					$this->lookups[$ip] = $this->reader->city($ip);
+				}
+				else
+				{
+					$this->lookups[$ip] = null;
+				}
+			}
+			catch (\GeoIp2\Exception\AddressNotFoundException $e)
+			{
+				$this->lookups[$ip] = false;
+			}
+			catch (\Exception $e)
+			{
+				// GeoIp2 could throw several different types of exceptions. Let's be sure that we're going to catch them all
+				$this->lookups[$ip] = null;
+			}
+		}
+
+		return $this->lookups[$ip];
+	}
+
+	/**
+	 * Gets the continent ISO code from an IP address
+	 *
+	 * @param   string  $ip      The IP address to look up
+	 *
+	 * @return  mixed   A string with the country name if found, false if the IP address is not found, null if the db can't be loaded
+	 */
+	public function getCity($ip, $locale = null)
+	{
+		$record = $this->getRecord($ip);
+
+		if ($record === false)
+		{
+			return false;
+		}
+
+		if (is_null($record))
+		{
+			return false;
+		}
+
+		return $record->city->name;
+	}
+
+	/**
+	 * Downloads and installs a fresh copy of the GeoLite2 City database
+	 *
+	 * @return  mixed  True on success, error string on failure
+	 */
+	public function updateDatabase()
+	{
+		$outputFile = $this->getDBPath();
+
+		// Sanity check
+		if (!function_exists('gzinflate'))
+		{
+			return JText::_('PLG_SYSTEM_TGEOIP_ERR_NOGZSUPPORT');
+		}
+
+		// Try to download the package, if I get any exception I'll simply stop here and display the error
+		try
+		{
+			$compressed = $this->downloadDatabase();
+		}
+		catch (\Exception $e)
+		{
+			return $e->getMessage();
+		}
+
+		// Write the downloaded file to a temporary location
+		$tmpdir = $this->getTempFolder();
+		$target = $tmpdir . '/' . $this->DBFileName . 'mmdb.gz';
+		$ret = JFile::write($target, $compressed);
+
+		if ($ret === false)
+		{
+			return JText::_('PLG_SYSTEM_TGEOIP_ERR_WRITEFAILED');
+		}
+
+		unset($compressed);
+
+		// Decompress the file
+		$uncompressed = '';
+
+		$zp = @gzopen($target, 'rb');
+
+		if ($zp === false)
+		{
+			return JText::_('PLG_SYSTEM_TGEOIP_ERR_CANTUNCOMPRESS');
+		}
+
+		if ($zp !== false)
+		{
+			while (!gzeof($zp))
+			{
+				$uncompressed .= @gzread($zp, 102400);
+			}
+
+			@gzclose($zp);
+
+			if (!@unlink($target))
+			{
+				JFile::delete($target);
+			}
+		}
+
+		// Double check if MaxMind can actually read and validate the downloaded database
+		try
+		{
+			// The Reader want a file, so let me write again the file in the temp directory
+			JFile::write($target, $uncompressed);
+			$reader = new Reader($target);
+		}
+		catch (\Exception $e)
+		{
+			JFile::delete($target);
+
+			// MaxMind could not validate the database, let's inform the user
+			return JText::_('PLG_SYSTEM_TGEOIP_ERR_INVALIDDB');
+		}
+
+		JFile::delete($target);
+
+		// Check the size of the uncompressed data. When MaxMind goes into overload, we get crap data in return.
+		if (strlen($uncompressed) < 1048576)
+		{
+			return JText::_('PLG_SYSTEM_TGEOIP_ERR_MAXMINDRATELIMIT');
+		}
+
+		// Check the contents of the uncompressed data. When MaxMind goes into overload, we get crap data in return.
+		if (stristr($uncompressed, 'Rate limited exceeded') !== false)
+		{
+			return JText::_('PLG_SYSTEM_TGEOIP_ERR_MAXMINDRATELIMIT');
+		}
+
+		// Remove old file
+		JLoader::import('joomla.filesystem.file');
+
+		if (JFile::exists($outputFile))
+		{
+			if (!JFile::delete($outputFile))
+			{
+				return JText::_('PLG_SYSTEM_TGEOIP_ERR_CANTDELETEOLD');
+			}
+		}
+
+		// Write the update file
+		if (!JFile::write($outputFile, $uncompressed))
+		{
+			return JText::_('PLG_SYSTEM_TGEOIP_ERR_CANTWRITE');
+		}
+
+		return true;
+	}
+	
+	/**
+	 * Download the compressed database for the provider
+	 *
+	 * @return  string  The compressed data
+	 *
+	 * @throws  Exception
+	 */
+	private function downloadDatabase()
+	{
+		$http = JHttpFactory::getHttp();
+
+		// Let's bubble up the exception, we will take care in the caller
+		$response   = $http->get($this->DBUpdateURL);
+		$compressed = $response->body;
+
+		// Generic check on valid HTTP code
+		if ($response->code > 299)
+		{
+			throw new \Exception(JText::_('PLG_SYSTEM_TGEOIP_ERR_MAXMIND_GENERIC'));
+		}
+
+		// An empty file indicates a problem with MaxMind's servers
+		if (empty($compressed))
+		{
+			throw new \Exception(JText::_('PLG_SYSTEM_TGEOIP_ERR_EMPTYDOWNLOAD'));
+		}
+
+		// Sometimes you get a rate limit exceeded
+		if (stristr($compressed, 'Rate limited exceeded') !== false)
+		{
+			throw new \Exception(JText::_('PLG_SYSTEM_TGEOIP_ERR_MAXMINDRATELIMIT'));
+		}
+
+		return $compressed;
+	}
+
+	/**
+	 * Reads (and checks) the temp Joomla folder
+	 *
+	 * @return string
+	 */
+	private function getTempFolder()
+	{
+		$tmpdir = JFactory::getConfig()->get('tmp_path');
+
+		JLoader::import('joomla.filesystem.folder');
+
+		if (realpath($tmpdir) == '/tmp')
+		{
+			$tmpdir = JPATH_SITE . '/tmp';
+		}
+		
+		elseif (!JFolder::exists($tmpdir))
+		{
+			$tmpdir = JPATH_SITE . '/tmp';
+		}
+
+		return $tmpdir;
+	}
+
+	/**
+	 *  Returns Database local file path
+	 *
+	 *  @return  string
+	 */
+	private function getDBPath()
+	{
+		return JPATH_ROOT . '/plugins/system/tgeoip/db/' . $this->DBFileName . '.mmdb';
+	}
+
+	/**
+	 * Does the GeoIP database need update?
+	 *
+	 * @return  boolean
+	 */
+	public function needsUpdate()
+	{
+		// Get the modification time of the database file
+		$modTime = @filemtime($this->getDBPath());
+
+		// This is now
+		$now = time();
+
+		// Minimum time difference
+		$threshold = $this->maxAge * 24 * 3600;
+
+		// Do we need an update?
+		$needsUpdate = ($now - $modTime) > $threshold;
+
+		return $needsUpdate;
+	}
+}

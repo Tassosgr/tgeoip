@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Tassos.gr GeoIP Provider Plugin" default="deploy">
+
+	<import file="${phing.dir}/../../buildfiles/build.xml" />
+
+	<property name="pkg.hasfree" value="false" override="true" />
+
+	<xmlproperty file="../source/plugins/system/tgeoip/tgeoip.xml"/>
+
+	<!-- Override Pro version patternset -->
+	<patternset id="patternset-pro">
+		<exclude name="packages/plg_system_tgeoip/db/*.mmdb" />
+		<exclude name="packages/plg_system_tgeoip/composer.*" />
+	</patternset>
+
+</project>

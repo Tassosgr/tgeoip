@@ -1,0 +1,3 @@
+project.*
+releases/
+source/plugins/system/tgeoip/db/*.mmdb
