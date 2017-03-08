@@ -15,4 +15,5 @@ class PlgSystemTGeoIPInstallerScript extends PlgSystemTGeoIPInstallerScriptHelpe
 	public $name = 'TGEOIP';
 	public $alias = 'tgeoip';
 	public $extension_type = 'plugin';
+	public $show_message = false;
 }

@@ -53,9 +53,16 @@ class TGeoIP
 	private $DBUpdateURL = 'http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz';
 
 	/**
+	 *  The IP address to look up
+	 *
+	 *  @var  string
+	 */
+	private $ip;
+
+	/**
 	 * Public constructor. Loads up the GeoLite2 database.
 	 */
-	public function __construct()
+	public function __construct($ip = null)
 	{
 		if (!function_exists('bcadd') || !function_exists('bcmul') || !function_exists('bcpow'))
 		{
@@ -79,18 +86,35 @@ class TGeoIP
 		{
 			$this->reader = null;
 		}
+
+		// Setup IP
+		$this->ip = $ip ?: $_SERVER['REMOTE_ADDR'];
+
+		if (in_array($this->ip, ['127.0.0.1', '::1']))
+		{
+			$this->ip = '';
+		}
+	}
+
+	/**
+	 *  Set the IP to look up
+	 *
+	 *  @param  string  $ip  The IP to look up
+	 */
+	public function setIP($ip)
+	{
+		$this->ip = $ip;
+		return $this;
 	}
 
 	/**
 	 * Gets the ISO country code from an IP address
 	 *
-	 * @param   string  $ip  The IP address to look up
-	 *
 	 * @return  mixed  A string with the country ISO code if found, false if the IP address is not found, null if the db can't be loaded
 	 */
-	public function getCountryCode($ip)
+	public function getCountryCode()
 	{
-		$record = $this->getRecord($ip);
+		$record = $this->getRecord();
 
 		if ($record === false)
 		{
@@ -108,14 +132,13 @@ class TGeoIP
 	/**
 	 * Gets the country name from an IP address
 	 *
-	 * @param   string  $ip      The IP address to look up
 	 * @param   string  $locale  The locale of the country name, e.g 'de' to return the country names in German. If not specified the English (US) names are returned.
 	 *
 	 * @return  mixed  A string with the country name if found, false if the IP address is not found, null if the db can't be loaded
 	 */
-	public function getCountryName($ip, $locale = null)
+	public function getCountryName($locale = null)
 	{
-		$record = $this->getRecord($ip);
+		$record = $this->getRecord();
 
 		if ($record === false)
 		{
@@ -138,13 +161,11 @@ class TGeoIP
 	/**
 	 * Gets the continent ISO code from an IP address
 	 *
-	 * @param   string  $ip      The IP address to look up
-	 *
 	 * @return  mixed  A string with the country name if found, false if the IP address is not found, null if the db can't be loaded
 	 */
-	public function getContinent($ip, $locale = null)
+	public function getContinentCode($locale = null)
 	{
-		$record = $this->getRecord($ip);
+		$record = $this->getRecord();
 
 		if ($record === false)
 		{
@@ -162,14 +183,13 @@ class TGeoIP
 	/**
 	 * Gets the continent name from an IP address
 	 *
-	 * @param   string  $ip      The IP address to look up
 	 * @param   string  $locale  The locale of the continent name, e.g 'de' to return the country names in German. If not specified the English (US) names are returned.
 	 *
 	 * @return  mixed  A string with the country name if found, false if the IP address is not found, null if the db can't be loaded
 	 */
-	public function getContinentName($ip, $locale = null)
+	public function getContinentName($locale = null)
 	{
-		$record = $this->getRecord($ip);
+		$record = $this->getRecord();
 
 		if ($record === false)
 		{
@@ -192,12 +212,17 @@ class TGeoIP
 	/**
 	 * Gets a raw record from an IP address
 	 *
-	 * @param   string  $ip  The IP address to look up
-	 *
 	 * @return  mixed  A \GeoIp2\Model\City record if found, false if the IP address is not found, null if the db can't be loaded
 	 */
-	public function getRecord($ip)
+	public function getRecord()
 	{
+		if (empty($this->ip))
+		{
+			return false;
+		}
+
+		$ip = $this->ip;
+
 		$needsToLoad = !array_key_exists($ip, $this->lookups);
 
 		if ($needsToLoad)
@@ -230,13 +255,11 @@ class TGeoIP
 	/**
 	 * Gets the continent ISO code from an IP address
 	 *
-	 * @param   string  $ip      The IP address to look up
-	 *
 	 * @return  mixed   A string with the country name if found, false if the IP address is not found, null if the db can't be loaded
 	 */
-	public function getCity($ip, $locale = null)
+	public function getCity($locale = null)
 	{
-		$record = $this->getRecord($ip);
+		$record = $this->getRecord();
 
 		if ($record === false)
 		{

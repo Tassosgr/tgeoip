@@ -26,11 +26,11 @@
 					label="PLG_SYSTEM_TGEOIP_DATABASE"
 					description="PLG_SYSTEM_TGEOIP_UPDATE_DATABASE_DESC"
 				/>
-				<field name="updatebutton" type="TG_UpdateButton"
+				<field name="updatebutton" type="tg_updatebutton"
 					label="PLG_SYSTEM_TGEOIP_UPDATE_DATABASE"
 					description="PLG_SYSTEM_TGEOIP_UPDATE_DATABASE_DESC"
 				/>
-				<field name="lastupdated" type="TG_LastUpdated"
+				<field name="lastupdated" type="tg_lastupdated"
 					label="PLG_SYSTEM_TGEOIP_LAST_UPDATED"
 					description="PLG_SYSTEM_TGEOIP_LAST_UPDATED_DESC"
 				/>
@@ -41,7 +41,7 @@
 					label="PLG_SYSTEM_TGEOIP_CHECK_IP"
 					description="PLG_SYSTEM_TGEOIP_CHECK_IP_DESC"
 				/>
-				<field name="testdrive" type="TG_TestDrive"
+				<field name="testdrive" type="tg_lookup"
 					label="PLG_SYSTEM_TGEOIP_CHECK_IP"
 					description="PLG_SYSTEM_TGEOIP_CHECK_IP_DESC"
 				/>

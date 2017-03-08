@@ -56,6 +56,6 @@ class JFormFieldTG_UpdateButton extends JFormField
             }
         ');
 
-        return '<a class="btn btn-primary tgeoipUpdate" href="#">Update Database <span class="icon-refresh"></span></a>';
+        return '<a class="btn btn-primary tgeoipUpdate" href="#"><span class="icon-refresh"></span> Update Database</a>';
     }
 }

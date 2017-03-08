@@ -67,7 +67,7 @@ class plgSystemTGeoIP extends JPlugin
     {
         JSession::checkToken("request") or die('Invalid Token');
 
-        // Only in Admin
+        // Only in admin
         if (!$this->app->isAdmin())
         {
             return;
@@ -79,13 +79,34 @@ class plgSystemTGeoIP extends JPlugin
 
         switch ($task)
         {
+            // Update database and redirect
+            case 'update-red': 
+
+                $result = $this->geoIP->updateDatabase();
+
+                if ($result === true)
+                {
+                    $msg = JText::_('PLG_SYSTEM_TGEOIP_DATABASE_UPDATED');
+                    $msgType = 'message';
+                } else
+                {
+                    $msgType = 'error';
+                    $msg = $result;
+                }
+
+                $return = base64_decode($this->app->input->get->getBase64('return', null));
+                $this->app->redirect($return, $msg, $msgType);
+
+                break;
+            // Update database
             case 'update':
                 echo $this->geoIP->updateDatabase();
                 break;
+            // IP Lookup
             case 'get':
-                $ip = $this->app->input->get('ip', $_SERVER['SERVER_ADDR']);
-                echo json_encode($this->geoIP->getRecord($ip));
-                break;   
+                $ip = $this->app->input->get('ip');
+                echo json_encode($this->geoIP->setIP($ip)->getRecord());
+                break;
         }
     }
 }

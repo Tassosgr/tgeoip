@@ -13,7 +13,7 @@
 // No direct access to this file
 defined('_JEXEC') or die;
 
-class JFormFieldTG_TestDrive extends JFormField
+class JFormFieldTG_Lookup extends JFormField
 {
     /**
      *  GeoIP Class
@@ -52,10 +52,20 @@ class JFormFieldTG_TestDrive extends JFormField
                         },
                         success: function(response) {
                             if (response) {
-                                $(".tGeoIPtest .continent").html(response.continent.names.en);
-                                $(".tGeoIPtest .city").html(response.city.names.en);
-                                $(".tGeoIPtest .country").html(response.country.names.en);
-                                $(".tGeoIPtest .country_code").html(response.country.iso_code); 
+                                
+                                if (response.continent) {
+                                    $(".tGeoIPtest .continent").html(response.continent.names.en);
+                                }
+
+                                if (response.city) {
+                                    $(".tGeoIPtest .city").html(response.city.names.en);
+                                }
+
+                                if (response.country) {
+                                    $(".tGeoIPtest .country").html(response.country.names.en);
+                                    $(".tGeoIPtest .country_code").html(response.country.iso_code); 
+                                }
+
                                 $(".tGeoIPtest .results").fadeIn("fast");
                             } else {
                                 alert("Invalid IP address");
@@ -76,10 +86,10 @@ class JFormFieldTG_TestDrive extends JFormField
         $html[] = '<input type="text" value="' . $ip . '"/>';
         $html[] = '<button class="btn">Lookup</button>';
         $html[] = '<ul class="results" style="margin-top:20px; display:none;">';
-        $html[] = '<li>Continent: <span class="continent">Greece</span></li>';
-        $html[] = '<li>Country: <span class="country">Greece</span></li>';
-        $html[] = '<li>Country Code: <span class="country_code">US</span></li>';
-        $html[] = '<li>City: <span class="city">Kos</span></li>';
+        $html[] = '<li>Continent: <span class="continent"></span></li>';
+        $html[] = '<li>Country: <span class="country"></span></li>';
+        $html[] = '<li>Country Code: <span class="country_code"></span></li>';
+        $html[] = '<li>City: <span class="city"></span></li>';
         $html[] = '<ul>';
         $html[] = '</div>';
 
