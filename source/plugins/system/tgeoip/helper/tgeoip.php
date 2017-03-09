@@ -90,7 +90,7 @@ class TGeoIP
 		// Setup IP
 		$this->ip = $ip ?: $_SERVER['REMOTE_ADDR'];
 
-		if (in_array($this->ip, ['127.0.0.1', '::1']))
+		if (in_array($this->ip, array('127.0.0.1', '::1')))
 		{
 			$this->ip = '';
 		}
