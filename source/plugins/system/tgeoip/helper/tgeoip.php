@@ -36,7 +36,7 @@ class TGeoIP
 	 *
 	 *  @var  integer
 	 */
-	private $maxAge = 15;
+	private $maxAge = 30;
 
 	/**
 	 *  Database File name
