@@ -394,6 +394,9 @@ class TGeoIP
 	 */
 	private function downloadDatabase()
 	{
+		// Make sure we have enough memory limit
+		ini_set('memory_limit', '-1');
+
 		$http = JHttpFactory::getHttp();
 
 		// Let's bubble up the exception, we will take care in the caller
