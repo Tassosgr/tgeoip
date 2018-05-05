@@ -88,7 +88,7 @@ class TGeoIP
 		}
 
 		// Setup IP
-		$this->ip = $ip ?: $_SERVER['REMOTE_ADDR'];
+        $this->ip = $ip ?: $_SERVER['REMOTE_ADDR'];
 
 		if (in_array($this->ip, array('127.0.0.1', '::1')))
 		{
@@ -105,7 +105,7 @@ class TGeoIP
 	{
 		$this->ip = $ip;
 		return $this;
-	}
+    }
 
 	/**
 	 * Gets the ISO country code from an IP address
@@ -253,9 +253,10 @@ class TGeoIP
 	}
 
 	/**
-	 * Gets the continent ISO code from an IP address
+	 *  Gets the city's name from an IP address
 	 *
-	 * @return  mixed   A string with the country name if found, false if the IP address is not found, null if the db can't be loaded
+     *  @param   string  $locale  The locale of the city's name, e.g 'de' to return the city names in German. If not specified the English (US) names are returned.
+	 *  @return  mixed   A string with the city name if found, false if the IP address is not found, null if the db can't be loaded
 	 */
 	public function getCity($locale = null)
 	{
@@ -269,9 +270,72 @@ class TGeoIP
 		if (is_null($record))
 		{
 			return false;
+        }
+        
+        if (empty($locale))
+        {
+            return $record->city->name;    
+        }
+
+		return $record->city->names[$locale];
+    }
+    
+    /**
+	 *  Gets a geographical region's (i.e. a country's province/state) name from an IP address
+	 *
+     *  @param   string  $locale  The locale of the regions's name, e.g 'de' to return region names in German. If not specified the English (US) names are returned.
+	 *  @return  mixed   A string with the region's name if found, false if the IP address is not found, null if the db can't be loaded
+	 */
+	public function getRegionName($locale = null)
+	{
+		$record = $this->getRecord();
+
+		if ($record === false)
+		{
+			return false;
 		}
 
-		return $record->city->name;
+		if (is_null($record))
+		{
+			return false;
+        }
+    
+        // MaxMind stores region information in a 'Subdivision' object (also found in $record->city->subdivision)
+        // http://maxmind.github.io/GeoIP2-php/doc/v2.9.0/class-GeoIp2.Record.Subdivision.html
+
+        if (empty($locale))
+        {
+            return $record->mostSpecificSubdivision->name;
+        }
+
+		return $record->mostSpecificSubdivision->names[$locale];
+    }
+    
+    /**
+	 *  Gets a geographical region's (i.e. a country's province/state) ISO 3611-2 (alpha-2) code from an IP address
+	 *
+	 *  @return  mixed   A string with the region's code if found, false if the IP address is not found, null if the db can't be loaded
+	 */
+	public function getRegionCode()
+	{
+		$record = $this->getRecord();
+
+		if ($record === false)
+		{
+			return false;
+		}
+
+
+        //
+        $this->ip = '213.16.221.121';
+        //		if (is_null($record))
+		{
+			return false;
+        }
+        
+        // MaxMind stores region information in a 'Subdivision' object
+        // http://maxmind.github.io/GeoIP2-php/doc/v2.9.0/class-GeoIp2.Record.Subdivision.html
+        return $record->mostSpecificSubdivision->isoCode;
 	}
 
 	/**
@@ -289,7 +353,7 @@ class TGeoIP
 			return JText::_('PLG_SYSTEM_TGEOIP_ERR_NOGZSUPPORT');
 		}
 
-		// Try to download the package, if I get any exception I'll simply stop here and display the error
+        // Try to download the package, if I get any exception I'll simply stop here and display the error
 		try
 		{
 			$compressed = $this->downloadDatabase();
