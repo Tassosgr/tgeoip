@@ -116,12 +116,7 @@ class TGeoIP
 	{
 		$record = $this->getRecord();
 
-		if ($record === false)
-		{
-			return false;
-		}
-
-		if (is_null($record))
+		if ($record === false || is_null($record))
 		{
 			return false;
 		}
@@ -140,12 +135,7 @@ class TGeoIP
 	{
 		$record = $this->getRecord();
 
-		if ($record === false)
-		{
-			return false;
-		}
-
-		if (is_null($record))
+		if ($record === false || is_null($record))
 		{
 			return false;
 		}
@@ -167,12 +157,7 @@ class TGeoIP
 	{
 		$record = $this->getRecord();
 
-		if ($record === false)
-		{
-			return false;
-		}
-
-		if (is_null($record))
+		if ($record === false || is_null($record))
 		{
 			return false;
 		}
@@ -191,12 +176,7 @@ class TGeoIP
 	{
 		$record = $this->getRecord();
 
-		if ($record === false)
-		{
-			return false;
-		}
-
-		if (is_null($record))
+		if ($record === false || is_null($record))
 		{
 			return false;
 		}
@@ -262,15 +242,10 @@ class TGeoIP
 	{
 		$record = $this->getRecord();
 
-		if ($record === false)
+		if ($record === false || is_null($record))
 		{
 			return false;
 		}
-
-		if (is_null($record))
-		{
-			return false;
-        }
         
         if (empty($locale))
         {
@@ -290,19 +265,13 @@ class TGeoIP
 	{
 		$record = $this->getRecord();
 
-		if ($record === false)
+		if ($record === false || is_null($record))
 		{
 			return false;
 		}
-
-		if (is_null($record))
-		{
-			return false;
-        }
     
         // MaxMind stores region information in a 'Subdivision' object (also found in $record->city->subdivision)
         // http://maxmind.github.io/GeoIP2-php/doc/v2.9.0/class-GeoIp2.Record.Subdivision.html
-
         if (empty($locale))
         {
             return $record->mostSpecificSubdivision->name;
@@ -320,24 +289,16 @@ class TGeoIP
 	{
 		$record = $this->getRecord();
 
-		if ($record === false)
+		if ($record === false || is_null($record))
 		{
 			return false;
 		}
 
-
-        //
-        $this->ip = '213.16.221.121';
-        //		if (is_null($record))
-		{
-			return false;
-        }
-        
         // MaxMind stores region information in a 'Subdivision' object
         // http://maxmind.github.io/GeoIP2-php/doc/v2.9.0/class-GeoIp2.Record.Subdivision.html
         return $record->mostSpecificSubdivision->isoCode;
 	}
-
+	
 	/**
 	 * Downloads and installs a fresh copy of the GeoLite2 City database
 	 *
