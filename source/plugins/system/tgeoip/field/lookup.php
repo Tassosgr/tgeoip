@@ -80,7 +80,7 @@ class JFormFieldTG_Lookup extends JFormField
         ');
 
         // HTML
-        $ip = $_SERVER['SERVER_ADDR']; 
+        $ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : ''; 
 
         $html[] = '<div class="tGeoIPtest">';
         $html[] = '<input type="text" value="' . $ip . '"/>';
