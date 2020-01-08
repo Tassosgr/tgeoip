@@ -50,7 +50,7 @@ class TGeoIP
 	 *
 	 *  @var  string
 	 */
-	private $DBUpdateURL = 'http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz';
+	private $DBUpdateURL = 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&date=20200107&license_key=USER_LICENSE_KEY&suffix=tar.gz';
 
 	/**
 	 *  The IP address to look up
@@ -326,7 +326,7 @@ class TGeoIP
 
 		// Write the downloaded file to a temporary location
 		$tmpdir = $this->getTempFolder();
-		$target = $tmpdir . '/' . $this->DBFileName . 'mmdb.gz';
+		$target = $tmpdir . '/' . $this->DBFileName . '.tar.gz';
 		$ret = JFile::write($target, $compressed);
 
 		if ($ret === false)
@@ -422,7 +422,17 @@ class TGeoIP
 		// Make sure we have enough memory limit
 		ini_set('memory_limit', '-1');
 
+		$plugin = JPluginHelper::getPlugin('system', 'tgeoip');
+		$params = new JRegistry($plugin->params);
+		$license_key = $params->get('license_key');
+
+		if (empty($license_key)) {
+			throw new \Exception(JText::_('PLG_SYSTEM_TGEOIP_LICENSE_KEY_EMPTY'));
+		}
+
 		$http = JHttpFactory::getHttp();
+
+		$this->DBUpdateURL = str_replace('USER_LICENSE_KEY', $license_key, $this->DBUpdateURL);
 
 		// Let's bubble up the exception, we will take care in the caller
 		$response   = $http->get($this->DBUpdateURL);
