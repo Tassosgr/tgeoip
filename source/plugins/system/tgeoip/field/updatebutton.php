@@ -22,17 +22,22 @@ class JFormFieldTG_UpdateButton extends JFormField
      */
     function getInput()
     {   
-        $ajaxURL = JURI::base() . 'index.php?option=com_ajax&format=raw&plugin=tgeoip&task=update&' . JSession::getFormToken() . '=1';
+        $ajaxURL = JURI::base() . 'index.php?option=com_ajax&format=raw&plugin=tgeoip&task=update&license_key=USER_LICENSE_KEY&' . JSession::getFormToken() . '=1';
 
         JFactory::getDocument()->addScriptDeclaration('
             jQuery(function($) {
                 $(".tgeoipUpdate").click(function() {
 
                     btn = $(this);
+
+                    var url = "' . $ajaxURL . '";
+
+                    var license_key = $(this).parents("form").find(".tgeoip_license_key").val();
+                    url = url.replace("USER_LICENSE_KEY", license_key);
                     
                     $.ajax({ 
                         type: "POST",
-                        url: "' . $ajaxURL . '",
+                        url: url,
                         success: function(response) {
                             if (response == "1") {
                                 btn.html("Database updated").addClass("btn-success");

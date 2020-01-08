@@ -77,12 +77,14 @@ class plgSystemTGeoIP extends JPlugin
 
         $task = $this->app->input->get('task', 'update');
 
+        $license_key = $this->app->input->get('license_key', '');
+        
         switch ($task)
         {
             // Update database and redirect
             case 'update-red': 
 
-                $result = $this->geoIP->updateDatabase();
+                $result = $this->geoIP->updateDatabase($license_key);
 
                 if ($result === true)
                 {
@@ -100,7 +102,7 @@ class plgSystemTGeoIP extends JPlugin
                 break;
             // Update database
             case 'update':
-                echo $this->geoIP->updateDatabase();
+                echo $this->geoIP->updateDatabase($license_key);
                 break;
             // IP Lookup
             case 'get':
