@@ -60,6 +60,13 @@ class TGeoIP
 	private $ip;
 
 	/**
+	 *  The License Key
+	 * 
+	 *  @var  string
+	 */
+	private $key = '';
+
+	/**
 	 * Public constructor. Loads up the GeoLite2 database.
 	 */
 	public function __construct($ip = null)
@@ -94,6 +101,28 @@ class TGeoIP
 		{
 			$this->ip = '';
 		}
+	}
+
+	/**
+	 *  Sets the license key
+	 * 
+	 *  @param   string
+	 * 
+	 *  @return  void
+	 */
+	public function setKey($key)
+	{
+		$this->key = $key;
+	}
+
+	/**
+	 *  Retrieves the key
+	 * 
+	 *  @return  string
+	 */
+	private function getKey()
+	{
+		return $this->key;
 	}
 
 	/**
@@ -301,12 +330,10 @@ class TGeoIP
 	
 	/**
 	 * Downloads and installs a fresh copy of the GeoLite2 City database
-	 * 
-	 * @param   string  $license_key
 	 *
 	 * @return  mixed  True on success, error string on failure
 	 */
-	public function updateDatabase($license_key)
+	public function updateDatabase()
 	{
 		$outputFile = $this->getDBPath();
 
@@ -319,7 +346,7 @@ class TGeoIP
         // Try to download the package, if I get any exception I'll simply stop here and display the error
 		try
 		{
-			$compressed = $this->downloadDatabase($license_key);
+			$compressed = $this->downloadDatabase();
 		}
 		catch (\Exception $e)
 		{
@@ -414,17 +441,17 @@ class TGeoIP
 	
 	/**
 	 * Download the compressed database for the provider
-	 *
-	 * @param   string  $license_key
 	 * 
 	 * @return  string  The compressed data
 	 *
 	 * @throws  Exception
 	 */
-	private function downloadDatabase($license_key)
+	private function downloadDatabase()
 	{
 		// Make sure we have enough memory limit
 		ini_set('memory_limit', '-1');
+
+		$license_key = $this->getKey();
 
 		$plugin = JPluginHelper::getPlugin('system', 'tgeoip');
 		$params = new JRegistry($plugin->params);
