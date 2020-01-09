@@ -6,7 +6,7 @@
  *
  * @author          Tassos Marinos <info@tassos.gr>
  * @link            http://www.tassos.gr
- * @copyright       Copyright © 2018 Tassos Marinos All Rights Reserved
+ * @copyright       Copyright © 2020 Tassos Marinos All Rights Reserved
  * @license         GNU GPLv3 <http://www.gnu.org/licenses/gpl.html> or later
  */
 
@@ -20,7 +20,7 @@ class JFormFieldTG_UpdateButton extends JFormField
      *
      *  @return  string  
      */
-    function getInput()
+    public function getInput()
     {   
         $ajaxURL = JURI::base() . 'index.php?option=com_ajax&format=raw&plugin=tgeoip&task=update&license_key=USER_LICENSE_KEY&' . JSession::getFormToken() . '=1';
 
@@ -29,6 +29,8 @@ class JFormFieldTG_UpdateButton extends JFormField
                 $(".tgeoipUpdate").click(function() {
 
                     btn = $(this);
+
+                    btn.removeClass("btn-danger");
 
                     var url = "' . $ajaxURL . '";
 
@@ -40,7 +42,7 @@ class JFormFieldTG_UpdateButton extends JFormField
                         url: url,
                         success: function(response) {
                             if (response == "1") {
-                                btn.html("Database updated").addClass("btn-success");
+                                btn.html("Database updated!").addClass("btn-success");
                             } else {
                                 btn.html(response).addClass("btn-danger").removeClass("btn-working"); 
                             }

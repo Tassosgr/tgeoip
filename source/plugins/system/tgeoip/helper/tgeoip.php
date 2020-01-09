@@ -6,7 +6,7 @@
  *
  * @author          Tassos Marinos <info@tassos.gr>
  * @link            http://www.tassos.gr
- * @copyright       Copyright © 2018 Tassos Marinos All Rights Reserved
+ * @copyright       Copyright © 2020 Tassos Marinos All Rights Reserved
  * @license         GNU GPLv3 <http://www.gnu.org/licenses/gpl.html> or later
  */
 
@@ -64,7 +64,7 @@ class TGeoIP
 	 * 
 	 *  @var  string
 	 */
-	private $key = '';
+	private $key;
 
 	/**
 	 * Public constructor. Loads up the GeoLite2 database.
@@ -108,7 +108,7 @@ class TGeoIP
 	 * 
 	 *  @param   string
 	 * 
-	 *  @return  void
+	 *  @return  mixed
 	 */
 	public function setKey($key)
 	{
@@ -122,7 +122,15 @@ class TGeoIP
 	 */
 	private function getKey()
 	{
-		return $this->key;
+		if ($this->key)
+		{
+			return $this->key;
+		}
+
+		$plugin = JPluginHelper::getPlugin('system', 'tgeoip');
+		$params = new JRegistry($plugin->params);
+
+		return $params->get('license_key', '');
 	}
 
 	/**
@@ -453,18 +461,9 @@ class TGeoIP
 
 		$license_key = $this->getKey();
 
-		$plugin = JPluginHelper::getPlugin('system', 'tgeoip');
-		$params = new JRegistry($plugin->params);
-		$params_license_key = $params->get('license_key');
-
-		if (empty($license_key) && empty($params_license_key))
-		{
-			throw new \Exception(JText::_('PLG_SYSTEM_TGEOIP_LICENSE_KEY_EMPTY'));
-		}
-
 		if (empty($license_key))
 		{
-			$license_key = $params_license_key;
+			throw new \Exception(JText::_('PLG_SYSTEM_TGEOIP_LICENSE_KEY_EMPTY'));
 		}
 
 		$http = JHttpFactory::getHttp();
