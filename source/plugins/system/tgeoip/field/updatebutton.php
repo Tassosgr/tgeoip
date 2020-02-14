@@ -22,6 +22,11 @@ class JFormFieldTG_UpdateButton extends JFormField
      */
     public function getInput()
     {   
+        if (!NRFramework\Extension::pluginIsEnabled('tgeoip'))
+        {
+            return '<span class="label label-warning" style="margin-top:4px;">' . JText::_('PLG_SYSTEM_TGEOIP_ENABLE_PLUGIN') . '</span>';
+        }
+
         $ajaxURL = JURI::base() . 'index.php?option=com_ajax&format=raw&plugin=tgeoip&task=update&license_key=USER_LICENSE_KEY&' . JSession::getFormToken() . '=1';
 
         JFactory::getDocument()->addScriptDeclaration('
