@@ -50,7 +50,7 @@ class TGeoIP
 	 *
 	 *  @var  string
 	 */
-	private $DBUpdateURL = 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&date=20200107&license_key=USER_LICENSE_KEY&suffix=tar.gz';
+	private $DBUpdateURL = 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=USER_LICENSE_KEY&suffix=tar.gz';
 
 	/**
 	 *  The IP address to look up
