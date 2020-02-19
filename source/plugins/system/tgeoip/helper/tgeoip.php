@@ -13,6 +13,10 @@
 defined('_JEXEC') or die;
 
 use GeoIp2\Database\Reader;
+use splitbrain\PHPArchive\Tar;
+
+jimport('joomla.filesystem.file');
+jimport('joomla.filesystem.folder');
 
 class TGeoIP
 {
@@ -343,14 +347,6 @@ class TGeoIP
 	 */
 	public function updateDatabase()
 	{
-		$outputFile = $this->getDBPath();
-
-		// Sanity check
-		if (!function_exists('gzinflate'))
-		{
-			return JText::_('PLG_SYSTEM_TGEOIP_ERR_NOGZSUPPORT');
-		}
-
         // Try to download the package, if I get any exception I'll simply stop here and display the error
 		try
 		{
@@ -362,86 +358,69 @@ class TGeoIP
 		}
 
 		// Write the downloaded file to a temporary location
-		$tmpdir = $this->getTempFolder();
-		$target = $tmpdir . '/' . $this->DBFileName . '.tar.gz';
-		$ret = JFile::write($target, $compressed);
-
-		if ($ret === false)
+		$target = $this->getTempFolder() . $this->DBFileName . '.tar.gz';
+		if (JFile::write($target, $compressed) === false)
 		{
 			return JText::_('PLG_SYSTEM_TGEOIP_ERR_WRITEFAILED');
 		}
 
-		unset($compressed);
+		// Unzip database to the same temporary location
+		$tar = new Tar;
+		$tar->open($target);
+		$extracted_files = $tar->extract($this->getTempFolder());
 
-		// Decompress the file
-		$uncompressed = '';
+		$database_file = '';
+		$extracted_folder = '';
 
-		$zp = @gzopen($target, 'rb');
-
-		if ($zp === false)
+		// Loop through extracted files to find the name of the extracted folder and the name of the database file
+		foreach ($extracted_files as $key => $extracted_file)
 		{
-			return JText::_('PLG_SYSTEM_TGEOIP_ERR_CANTUNCOMPRESS');
-		}
-
-		if ($zp !== false)
-		{
-			while (!gzeof($zp))
+			if ($extracted_file->getIsdir())
 			{
-				$uncompressed .= @gzread($zp, 102400);
+				$extracted_folder = $extracted_file->getPath();
 			}
 
-			@gzclose($zp);
-
-			if (!@unlink($target))
+			if (strpos($extracted_file->getPath(), '.mmdb') === false)
 			{
-				JFile::delete($target);
+				continue;
 			}
+
+			$database_file = $extracted_file->getPath();
 		}
 
-		// Double check if MaxMind can actually read and validate the downloaded database
-		try
+		// Move database file to the correct location
+		if (!JFile::move($this->getTempFolder() . $database_file, $this->getDBPath()))
 		{
-			// The Reader want a file, so let me write again the file in the temp directory
-			JFile::write($target, $uncompressed);
-			$reader = new Reader($target);
+			return JText::_('PLG_SYSTEM_TGEOIP_ERR_CANTWRITE');
 		}
-		catch (\Exception $e)
-		{
-			JFile::delete($target);
 
-			// MaxMind could not validate the database, let's inform the user
+		// Make sure the database is readable
+		if (!$this->dbIsValid())
+		{
 			return JText::_('PLG_SYSTEM_TGEOIP_ERR_INVALIDDB');
 		}
 
+		// Delete leftovers
 		JFile::delete($target);
+		JFolder::delete($this->getTempFolder() . $extracted_folder);
 
-		// Check the size of the uncompressed data. When MaxMind goes into overload, we get crap data in return.
-		if (strlen($uncompressed) < 1048576)
+		return true;
+	}
+
+	/**
+	 * Double check if MaxMind can actually read and validate the downloaded database
+	 *
+	 * @return bool
+	 */
+	private function dbIsValid() 
+	{
+		try
 		{
-			return JText::_('PLG_SYSTEM_TGEOIP_ERR_MAXMINDRATELIMIT');
+			$reader = new Reader($this->getDBPath());
 		}
-
-		// Check the contents of the uncompressed data. When MaxMind goes into overload, we get crap data in return.
-		if (stristr($uncompressed, 'Rate limited exceeded') !== false)
+		catch (\Exception $e)
 		{
-			return JText::_('PLG_SYSTEM_TGEOIP_ERR_MAXMINDRATELIMIT');
-		}
-
-		// Remove old file
-		JLoader::import('joomla.filesystem.file');
-
-		if (JFile::exists($outputFile))
-		{
-			if (!JFile::delete($outputFile))
-			{
-				return JText::_('PLG_SYSTEM_TGEOIP_ERR_CANTDELETEOLD');
-			}
-		}
-
-		// Write the update file
-		if (!JFile::write($outputFile, $uncompressed))
-		{
-			return JText::_('PLG_SYSTEM_TGEOIP_ERR_CANTWRITE');
+			return false;
 		}
 
 		return true;
@@ -503,8 +482,6 @@ class TGeoIP
 	private function getTempFolder()
 	{
 		$tmpdir = JFactory::getConfig()->get('tmp_path');
-
-		JLoader::import('joomla.filesystem.folder');
 
 		if (realpath($tmpdir) == '/tmp')
 		{

@@ -7,6 +7,10 @@ namespace Composer\Autoload;
 class ComposerStaticInite69a97ecf345b4dd61174f0f336380b6
 {
     public static $prefixLengthsPsr4 = array (
+        's' => 
+        array (
+            'splitbrain\\PHPArchive\\' => 22,
+        ),
         'M' => 
         array (
             'MaxMind\\Db\\' => 11,
@@ -23,6 +27,10 @@ class ComposerStaticInite69a97ecf345b4dd61174f0f336380b6
     );
 
     public static $prefixDirsPsr4 = array (
+        'splitbrain\\PHPArchive\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/splitbrain/php-archive/src',
+        ),
         'MaxMind\\Db\\' => 
         array (
             0 => __DIR__ . '/..' . '/maxmind-db/reader/src/MaxMind/Db',
