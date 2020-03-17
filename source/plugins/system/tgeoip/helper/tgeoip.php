@@ -391,7 +391,7 @@ class TGeoIP
 		// Move database file to the correct location
 		if (!JFile::move($this->getTempFolder() . $database_file, $this->getDBPath()))
 		{
-			return JText::_('PLG_SYSTEM_TGEOIP_ERR_CANTWRITE');
+			return JText::sprintf('PLG_SYSTEM_TGEOIP_ERR_CANTWRITE', $this->getDBPath());
 		}
 
 		// Make sure the database is readable
