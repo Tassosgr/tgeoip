@@ -453,6 +453,12 @@ class TGeoIP
 		$response   = $http->get($this->DBUpdateURL);
 		$compressed = $response->body;
 
+		// 401 is thrown if you have incorrect credentials or wrong license key
+		if ($response->code == 401)
+		{
+			throw new \Exception(JText::_('PLG_SYSTEM_TGEOIP_ERR_WRONG_LICENSE_KEY'));
+		}
+		
 		// Generic check on valid HTTP code
 		if ($response->code > 299)
 		{
