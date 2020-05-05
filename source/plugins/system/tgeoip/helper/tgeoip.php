@@ -491,12 +491,12 @@ class TGeoIP
 
 		if (realpath($tmpdir) == '/tmp')
 		{
-			$tmpdir = JPATH_SITE . '/tmp';
+			$tmpdir = JPATH_SITE . '/tmp/';
 		}
 		
 		elseif (!JFolder::exists($tmpdir))
 		{
-			$tmpdir = JPATH_SITE . '/tmp';
+			$tmpdir = JPATH_SITE . '/tmp/';
 		}
 
 		return $tmpdir;
