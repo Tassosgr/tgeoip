@@ -389,7 +389,7 @@ class TGeoIP
 		}
 
 		// Move database file to the correct location
-		if (!JFile::move(JPath::clean($this->getTempFolder() . '/' . $database_file), $this->getDBPath()))
+		if (!JFile::move(JPath::clean($this->getTempFolder() . $database_file), $this->getDBPath()))
 		{
 			return JText::sprintf('PLG_SYSTEM_TGEOIP_ERR_CANTWRITE', $this->getDBPath());
 		}
@@ -491,13 +491,15 @@ class TGeoIP
 
 		if (realpath($tmpdir) == '/tmp')
 		{
-			$tmpdir = JPATH_SITE . '/tmp/';
+			$tmpdir = JPATH_SITE . '/tmp';
 		}
 		
 		elseif (!JFolder::exists($tmpdir))
 		{
-			$tmpdir = JPATH_SITE . '/tmp/';
+			$tmpdir = JPATH_SITE . '/tmp';
 		}
+
+		$tmpdir = rtrim($tmpdir, '/') . '/';
 
 		return $tmpdir;
 	}
