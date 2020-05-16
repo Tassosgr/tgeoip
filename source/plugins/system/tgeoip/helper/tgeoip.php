@@ -389,7 +389,7 @@ class TGeoIP
 		}
 
 		// Move database file to the correct location
-		if (!JFile::move(JPath::clean($this->getTempFolder() . '/' . $database_file), $this->getDBPath()))
+		if (!JFile::move($this->getTempFolder() . $database_file, $this->getDBPath()))
 		{
 			return JText::sprintf('PLG_SYSTEM_TGEOIP_ERR_CANTWRITE', $this->getDBPath());
 		}
@@ -487,19 +487,21 @@ class TGeoIP
 	 */
 	private function getTempFolder()
 	{
+		$ds = DIRECTORY_SEPARATOR;
+
 		$tmpdir = JFactory::getConfig()->get('tmp_path');
 
-		if (realpath($tmpdir) == '/tmp')
+		if (realpath($tmpdir) == $ds . 'tmp')
 		{
-			$tmpdir = JPATH_SITE . '/tmp';
+			$tmpdir = JPATH_SITE . $ds . 'tmp';
 		}
 		
 		elseif (!JFolder::exists($tmpdir))
 		{
-			$tmpdir = JPATH_SITE . '/tmp';
+			$tmpdir = JPATH_SITE . $ds . 'tmp';
 		}
 
-		return $tmpdir;
+		return JPath::clean(trim($tmpdir) . $ds);
 	}
 
 	/**
