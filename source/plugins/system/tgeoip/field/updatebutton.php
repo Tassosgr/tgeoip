@@ -31,34 +31,35 @@ class JFormFieldTG_UpdateButton extends JFormField
 
         JFactory::getDocument()->addScriptDeclaration('
             jQuery(function($) {
-                $(".tgeoipUpdate").click(function() {
+                $(".tgeoipUpdate").click(function(evt) {
+                    if (evt.target.classList.contains("tgeoipUpdate")) {
+                        btn = $(this);
 
-                    btn = $(this);
+                        btn.removeClass("btn-danger");
 
-                    btn.removeClass("btn-danger");
+                        var url = "' . $ajaxURL . '";
 
-                    var url = "' . $ajaxURL . '";
-
-                    var license_key = $(this).parents("form").find(".tgeoip_license_key").val();
-                    url = url.replace("USER_LICENSE_KEY", license_key);
-                    
-                    $.ajax({ 
-                        type: "POST",
-                        url: url,
-                        success: function(response) {
-                            if (response == "1") {
-                                btn.html("Database updated!").addClass("btn-success");
-                            } else {
-                                btn.html(response).addClass("btn-danger").removeClass("btn-working"); 
+                        var license_key = $(this).parents("form").find(".tgeoip_license_key").val();
+                        url = url.replace("USER_LICENSE_KEY", license_key);
+                        
+                        $.ajax({ 
+                            type: "POST",
+                            url: url,
+                            success: function(response) {
+                                if (response == "1") {
+                                    btn.html("Database updated!").addClass("btn-success");
+                                } else {
+                                    btn.html(response).addClass("btn-danger").removeClass("btn-working"); 
+                                }
+                            },
+                            beforeSend: function() {
+                                btn.html("Downloading Updates. Please wait..").addClass("btn-working");
                             }
-                        },
-                        beforeSend: function() {
-                            btn.html("Downloading Updates. Please wait..").addClass("btn-working");
-                        }
-                    });
+                        });
 
-                    return false;
-                })
+                        return false;
+                    }
+                });
             }) 
         ');
 
@@ -66,8 +67,12 @@ class JFormFieldTG_UpdateButton extends JFormField
             .btn-working {
                 pointer-events:none;
             }
+            .tgeoipUpdate a {
+                color: #fff;
+                text-decoration: underline;
+            }
         ');
 
-        return '<a class="btn btn-primary tgeoipUpdate" href="#"><span class="icon-refresh"></span> Update Database</a>';
+        return '<div class="btn btn-primary tgeoipUpdate"><span class="icon-refresh"></span> Update Database</div>';
     }
 }
