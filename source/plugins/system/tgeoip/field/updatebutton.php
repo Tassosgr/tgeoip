@@ -29,50 +29,66 @@ class JFormFieldTG_UpdateButton extends JFormField
 
         $ajaxURL = JURI::base() . 'index.php?option=com_ajax&format=raw&plugin=tgeoip&task=update&license_key=USER_LICENSE_KEY&' . JSession::getFormToken() . '=1';
 
+        JText::script('PLG_SYSTEM_TGEOIP_DATABASE_UPDATED');
+        JText::script('PLG_SYSTEM_TGEOIP_PLEASE_WAIT');
+
         JFactory::getDocument()->addScriptDeclaration('
             jQuery(function($) {
-                $(".tgeoipUpdate").click(function(evt) {
-                    if (evt.target.classList.contains("tgeoipUpdate")) {
-                        btn = $(this);
+                var btn = $(".geo button");
+                var alert = $(".geo .alert");
 
-                        btn.removeClass("btn-danger");
-
-                        var url = "' . $ajaxURL . '";
-
-                        var license_key = $(this).parents("form").find(".tgeoip_license_key").val();
-                        url = url.replace("USER_LICENSE_KEY", license_key);
-                        
-                        $.ajax({ 
-                            type: "POST",
-                            url: url,
-                            success: function(response) {
-                                if (response == "1") {
-                                    btn.html("Database updated!").addClass("btn-success");
-                                } else {
-                                    btn.html(response).addClass("btn-danger").removeClass("btn-working"); 
-                                }
-                            },
-                            beforeSend: function() {
-                                btn.html("Downloading Updates. Please wait..").addClass("btn-working");
+                btn.click(function() {
+                    var url = "' . $ajaxURL . '";
+                    var license_key = $(this).parents("form").find(".tgeoip_license_key").val();
+                    url = url.replace("USER_LICENSE_KEY", license_key);
+                    
+                    $.ajax({ 
+                        type: "POST",
+                        url: url,
+                        success: function(response) {
+                            if (response == "1") {
+                                alert.html(Joomla.JText._("PLG_SYSTEM_TGEOIP_DATABASE_UPDATED")).show().removeClass("alert-danger").addClass("alert-success");
+                            } else {
+                                alert.html(response).show().removeClass("alert-success").addClass("alert-danger");
                             }
-                        });
+                            btn.removeClass("btn-working").html(btn.data("label"));
+                        },
+                        beforeSend: function() {
+                            alert.hide();
+                            btn.html(Joomla.JText._("PLG_SYSTEM_TGEOIP_PLEASE_WAIT")).addClass("btn-working");
+                        }
+                    });
 
-                        return false;
-                    }
+                    return false;
                 });
             }) 
         ');
 
         JFactory::getDocument()->addStyleDeclaration('
-            .btn-working {
+            .geo .btn-working {
                 pointer-events:none;
             }
-            .tgeoipUpdate a {
-                color: #fff;
-                text-decoration: underline;
+            .geo .alert {
+                display:none;
+                margin-bottom: 10px;
+            }
+            .geo button {
+                outline:none !important;
+                width: auto;
+                height: auto;
+                line-height: inherit;
+            }
+            .geo button:before {
+                margin-right:5px;
+                position:relative;
+                top:1px;
             }
         ');
 
-        return '<div class="btn btn-primary tgeoipUpdate"><span class="icon-refresh"></span> Update Database</div>';
+        return '
+            <div class="geo">
+                <div class="alert alert-danger"></div>
+                <button class="btn btn-primary icon-refresh" data-label="' . JText::_('PLG_SYSTEM_TGEOIP_UPDATE_DATABASE') . '">' . JText::_('PLG_SYSTEM_TGEOIP_UPDATE_DATABASE') . '</button>            
+            </div>';
     }
 }
