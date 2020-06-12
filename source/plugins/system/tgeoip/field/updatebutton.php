@@ -29,16 +29,16 @@ class JFormFieldTG_UpdateButton extends JFormField
 
         $ajaxURL = JURI::base() . 'index.php?option=com_ajax&format=raw&plugin=tgeoip&task=update&license_key=USER_LICENSE_KEY&' . JSession::getFormToken() . '=1';
 
+        JText::script('PLG_SYSTEM_TGEOIP_DATABASE_UPDATED');
+        JText::script('PLG_SYSTEM_TGEOIP_PLEASE_WAIT');
+
         JFactory::getDocument()->addScriptDeclaration('
             jQuery(function($) {
-                $(".tgeoipUpdate").click(function() {
+                var btn = $(".geo button");
+                var alert = $(".geo .alert");
 
-                    btn = $(this);
-
-                    btn.removeClass("btn-danger");
-
+                btn.click(function() {
                     var url = "' . $ajaxURL . '";
-
                     var license_key = $(this).parents("form").find(".tgeoip_license_key").val();
                     url = url.replace("USER_LICENSE_KEY", license_key);
                     
@@ -47,27 +47,48 @@ class JFormFieldTG_UpdateButton extends JFormField
                         url: url,
                         success: function(response) {
                             if (response == "1") {
-                                btn.html("Database updated!").addClass("btn-success");
+                                alert.html(Joomla.JText._("PLG_SYSTEM_TGEOIP_DATABASE_UPDATED")).show().removeClass("alert-danger").addClass("alert-success");
                             } else {
-                                btn.html(response).addClass("btn-danger").removeClass("btn-working"); 
+                                alert.html(response).show().removeClass("alert-success").addClass("alert-danger");
                             }
+                            btn.removeClass("btn-working").html(btn.data("label"));
                         },
                         beforeSend: function() {
-                            btn.html("Downloading Updates. Please wait..").addClass("btn-working");
+                            alert.hide();
+                            btn.html(Joomla.JText._("PLG_SYSTEM_TGEOIP_PLEASE_WAIT")).addClass("btn-working");
                         }
                     });
 
                     return false;
-                })
+                });
             }) 
         ');
 
         JFactory::getDocument()->addStyleDeclaration('
-            .btn-working {
+            .geo .btn-working {
                 pointer-events:none;
+            }
+            .geo .alert {
+                display:none;
+                margin-bottom: 10px;
+            }
+            .geo button {
+                outline:none !important;
+                width: auto;
+                height: auto;
+                line-height: inherit;
+            }
+            .geo button:before {
+                margin-right:5px;
+                position:relative;
+                top:1px;
             }
         ');
 
-        return '<a class="btn btn-primary tgeoipUpdate" href="#"><span class="icon-refresh"></span> Update Database</a>';
+        return '
+            <div class="geo">
+                <div class="alert alert-danger"></div>
+                <button class="btn btn-primary icon-refresh" data-label="' . JText::_('PLG_SYSTEM_TGEOIP_UPDATE_DATABASE') . '">' . JText::_('PLG_SYSTEM_TGEOIP_UPDATE_DATABASE') . '</button>            
+            </div>';
     }
 }

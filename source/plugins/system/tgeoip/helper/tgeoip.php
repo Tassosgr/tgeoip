@@ -57,6 +57,13 @@ class TGeoIP
 	private $DBUpdateURL = 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=USER_LICENSE_KEY&suffix=tar.gz';
 
 	/**
+	 *  GeoIP Enable Geolocations Documentation URL
+	 * 
+	 *  @var  string
+	 */
+	private $TGeoIPEnableDocURL = 'https://www.tassos.gr/kb/general/how-to-enable-geolocation-features-in-tassos-gr-extensions';
+
+	/**
 	 *  The IP address to look up
 	 *
 	 *  @var  string
@@ -442,7 +449,7 @@ class TGeoIP
 
 		if (empty($license_key))
 		{
-			throw new \Exception(JText::_('PLG_SYSTEM_TGEOIP_LICENSE_KEY_EMPTY'));
+			throw new \Exception(JText::_('PLG_SYSTEM_TGEOIP_LICENSE_KEY_EMPTY') . '&nbsp;<a href="' . $this->TGeoIPEnableDocURL . '" target="_blank">' . JText::_('PLG_SYSTEM_TGEOIP_ENABLE_DOC_LINK_LABEL') . '</a>');
 		}
 
 		$http = JHttpFactory::getHttp();
