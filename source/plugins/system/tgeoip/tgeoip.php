@@ -63,12 +63,12 @@ class plgSystemTGeoIP extends JPlugin
      *
      *  @return void
      */
-    function onAjaxTGeoIP()
+    public function onAjaxTgeoip()
     {
-        JSession::checkToken("request") or die('Invalid Token');
+        JSession::checkToken('request') or die('Invalid Token');
 
         // Only in admin
-        if (!$this->app->isAdmin())
+        if (!$this->app->isClient('administrator'))
         {
             return;
         }
@@ -97,13 +97,16 @@ class plgSystemTGeoIP extends JPlugin
                 }
 
                 $return = base64_decode($this->app->input->get->getBase64('return', null));
-                $this->app->redirect($return, $msg, $msgType);
 
+                $this->app->enqueueMessage($msg, $msgType);
+                $this->app->redirect($return);
                 break;
+
             // Update database
             case 'update':
                 echo $this->geoIP->updateDatabase();
                 break;
+                
             // IP Lookup
             case 'get':
                 $ip = $this->app->input->get('ip');

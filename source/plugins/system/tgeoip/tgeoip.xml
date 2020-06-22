@@ -29,7 +29,7 @@
 				<field name="license_key" type="nrtext"
 					label="PLG_SYSTEM_TGEOIP_LICENSE_KEY"
 					description="PLG_SYSTEM_TGEOIP_LICENSE_KEY_DESC"
-					class="input-xlarge tgeoip_license_key"
+					class="input-xlarge"
 					urltext="PLG_SYSTEM_TGEOIP_LICENSE_KEY_GET"
 					url="https://www.tassos.gr/kb/general/how-to-enable-geolocation-features-in-tassos-gr-extensions#create_maxmind_license_key"
 					required="true"

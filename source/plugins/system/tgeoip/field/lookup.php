@@ -27,7 +27,7 @@ class JFormFieldTG_Lookup extends JFormField
      *
      *  @return  string  
      */
-    function getInput()
+    public function getInput()
     {   
         // JavaScript
         $ajaxURL = JURI::base() . 'index.php?option=com_ajax&format=raw&plugin=tgeoip&task=get&' . JSession::getFormToken() . '=1';
@@ -82,17 +82,15 @@ class JFormFieldTG_Lookup extends JFormField
         // HTML
         $ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : ''; 
 
-        $html[] = '<div class="tGeoIPtest">';
-        $html[] = '<input type="text" value="' . $ip . '"/>';
-        $html[] = '<button class="btn">Lookup</button>';
-        $html[] = '<ul class="results" style="margin-top:20px; display:none;">';
-        $html[] = '<li>Continent: <span class="continent"></span></li>';
-        $html[] = '<li>Country: <span class="country"></span></li>';
-        $html[] = '<li>Country Code: <span class="country_code"></span></li>';
-        $html[] = '<li>City: <span class="city"></span></li>';
-        $html[] = '<ul>';
-        $html[] = '</div>';
-
-        return implode(" ", $html);
+        return '<div class="tGeoIPtest">
+            <input class="form-control input-medium" type="text" value="' . $ip . '"/>
+            <button class="btn btn-outline-secondary">Lookup</button>
+            <ul class="results" style="margin-top:20px; display:none;">
+                <li>Continent: <span class="continent"></span></li>
+                <li>Country: <span class="country"></span></li>
+                <li>Country Code: <span class="country_code"></span></li>
+                <li>City: <span class="city"></span></li>
+            <ul>
+        </div>';
     }
 }

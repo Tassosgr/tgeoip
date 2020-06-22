@@ -27,6 +27,8 @@ class JFormFieldTG_UpdateButton extends JFormField
             return '<span class="label label-warning" style="margin-top:4px;">' . JText::_('PLG_SYSTEM_TGEOIP_ENABLE_PLUGIN') . '</span>';
         }
 
+        JHtml::stylesheet('plg_system_nrframework/joomla4.css', ['relative' => true, 'version' => 'auto']);
+
         $ajaxURL = JURI::base() . 'index.php?option=com_ajax&format=raw&plugin=tgeoip&task=update&license_key=USER_LICENSE_KEY&' . JSession::getFormToken() . '=1';
 
         JText::script('PLG_SYSTEM_TGEOIP_DATABASE_UPDATED');
@@ -51,11 +53,11 @@ class JFormFieldTG_UpdateButton extends JFormField
                             } else {
                                 alert.html(response).show().removeClass("alert-success").addClass("alert-danger");
                             }
-                            btn.removeClass("btn-working").html(btn.data("label"));
+                            btn.removeClass("btn-working").find("span").html(btn.data("label"));
                         },
                         beforeSend: function() {
                             alert.hide();
-                            btn.html(Joomla.JText._("PLG_SYSTEM_TGEOIP_PLEASE_WAIT")).addClass("btn-working");
+                            btn.find("span").html(Joomla.JText._("PLG_SYSTEM_TGEOIP_PLEASE_WAIT")).addClass("btn-working");
                         }
                     });
 
@@ -83,12 +85,18 @@ class JFormFieldTG_UpdateButton extends JFormField
                 position:relative;
                 top:1px;
             }
+            #wrapper .geo .icon-refresh { 
+                margin-right: 5px;
+            }
         ');
 
         return '
             <div class="geo">
                 <div class="alert alert-danger"></div>
-                <button class="btn btn-primary icon-refresh" data-label="' . JText::_('PLG_SYSTEM_TGEOIP_UPDATE_DATABASE') . '">' . JText::_('PLG_SYSTEM_TGEOIP_UPDATE_DATABASE') . '</button>            
+                <button class="btn btn-primary" data-label="' . JText::_('PLG_SYSTEM_TGEOIP_UPDATE_DATABASE') . '">
+                    <em class="icon-refresh"></em>
+                    <span>' . JText::_('PLG_SYSTEM_TGEOIP_UPDATE_DATABASE') . '</span>
+                </button>            
             </div>';
     }
 }
