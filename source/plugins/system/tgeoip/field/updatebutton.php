@@ -41,7 +41,7 @@ class JFormFieldTG_UpdateButton extends JFormField
 
                 btn.click(function() {
                     var url = "' . $ajaxURL . '";
-                    var license_key = $(this).parents("form").find(".tgeoip_license_key").val();
+                    var license_key = $(this).parents("form").find("#jform_params_license_key").val();
                     url = url.replace("USER_LICENSE_KEY", license_key);
                     
                     $.ajax({ 
