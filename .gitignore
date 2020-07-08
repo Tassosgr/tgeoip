@@ -1,4 +1,5 @@
 project.*
 releases/
 source/plugins/system/tgeoip/db/*.mmdb
+source/plugins/system/tgeoip/vendor
 .vscode
