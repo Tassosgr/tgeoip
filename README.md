@@ -11,6 +11,4 @@ composer install
 ## Used by
 The TGeoIP plugin is currently being used by the following extensions
 
-[EngageBox](https://www.tassos.gr/joomla-extensions/engagebox)
-[Convert Forms](https://www.tassos.gr/joomla-extensions/convert-forms)
-[Advanced Custom Fields](https://www.tassos.gr/joomla-extensions/advanced-custom-fields)
+[EngageBox](https://www.tassos.gr/joomla-extensions/engagebox), [Convert Forms](https://www.tassos.gr/joomla-extensions/convert-forms) and [Advanced Custom Fields](https://www.tassos.gr/joomla-extensions/advanced-custom-fields)
