@@ -1,0 +1,12 @@
+{
+	"name" : "TGeoIP",
+	"xml_file" : "source/plugins/system/tgeoip/tgeoip.xml",
+	"versions" : {
+		"free" : {
+			"exclude" : [
+				"packages/plg_system_tgeoip/db/*.mmdb",
+				"packages/plg_system_tgeoip/composer.*"
+			]
+		}
+	}
+}
