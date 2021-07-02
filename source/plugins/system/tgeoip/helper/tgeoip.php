@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 
 use GeoIp2\Database\Reader;
 use splitbrain\PHPArchive\Tar;
+use NRFramework\User;
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
@@ -106,7 +107,7 @@ class TGeoIP
 		}
 
 		// Setup IP
-        $this->ip = $ip ?: $_SERVER['REMOTE_ADDR'];
+        $this->ip = $ip ?: User::getIP();
 
 		if (in_array($this->ip, array('127.0.0.1', '::1')))
 		{
