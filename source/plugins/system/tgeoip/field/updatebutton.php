@@ -35,35 +35,55 @@ class JFormFieldTG_UpdateButton extends JFormField
         JText::script('PLG_SYSTEM_TGEOIP_PLEASE_WAIT');
 
         JFactory::getDocument()->addScriptDeclaration('
-            jQuery(function($) {
-                var btn = $(".geo button");
-                var alert = $(".geo .alert");
+            document.addEventListener("DOMContentLoaded", function() {
+                document.addEventListener("click", function(e) {
+                    var btn = e.target.closest(".geo button");
+                    if (!btn) {
+                        return;
+                    }
+                    
+                    e.preventDefault();
 
-                btn.click(function() {
+                    var license_key = e.target.closest("form").querySelector("#jform_params_license_key").value;
+                    if (!license_key) {
+                        return;
+                    }
+
+                    var alert = document.querySelector(".geo .alert");
+                
                     var url = "' . $ajaxURL . '";
-                    var license_key = $(this).parents("form").find("#jform_params_license_key").val();
                     url = url.replace("USER_LICENSE_KEY", license_key);
                     
-                    $.ajax({ 
-                        type: "POST",
-                        url: url,
-                        success: function(response) {
-                            if (response == "1") {
-                                alert.html(Joomla.JText._("PLG_SYSTEM_TGEOIP_DATABASE_UPDATED")).show().removeClass("alert-danger").addClass("alert-success");
-                            } else {
-                                alert.html(response).show().removeClass("alert-success").addClass("alert-danger");
-                            }
-                            btn.removeClass("btn-working").find("span").html(btn.data("label"));
-                        },
-                        beforeSend: function() {
-                            alert.hide();
-                            btn.find("span").html(Joomla.JText._("PLG_SYSTEM_TGEOIP_PLEASE_WAIT")).addClass("btn-working");
+                    // before request
+                    alert.style.display = "none";
+                    btn.querySelector("span").innerHTML = Joomla.JText._("PLG_SYSTEM_TGEOIP_PLEASE_WAIT");
+                    btn.classList.add("btn-working");
+
+                    fetch(url,
+                    {
+                        method: "POST"
+                    })
+                    .then(function(res){ return res.text(); })
+                    .then(function(response){
+                        if (response == "1") {
+                            alert.innerHTML = Joomla.JText._("PLG_SYSTEM_TGEOIP_DATABASE_UPDATED");
+                            alert.style.display = "block";
+                            alert.classList.remove("alert-danger");
+                            alert.classList.add("alert-success");
+                        } else {
+                            alert.innerHTML = response;
+                            alert.style.display = "block";
+                            alert.classList.remove("alert-success");
+                            alert.classList.add("alert-danger");
                         }
+
+                        btn.classList.remove("btn-working");
+                        btn.querySelector("span").innerHTML = btn.dataset.label;
                     });
 
                     return false;
                 });
-            }) 
+            });
         ');
 
         JFactory::getDocument()->addStyleDeclaration('

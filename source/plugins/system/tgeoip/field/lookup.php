@@ -33,46 +33,52 @@ class JFormFieldTG_Lookup extends JFormField
         $ajaxURL = JURI::base() . 'index.php?option=com_ajax&format=raw&plugin=tgeoip&task=get&' . JSession::getFormToken() . '=1';
 
         JFactory::getDocument()->addScriptDeclaration('
-            jQuery(function($) {
-                $(".tGeoIPtest button").click(function() {
+            document.addEventListener("DOMContentLoaded", function() {
+                document.addEventListener("click", function(e) {
+                    var btn = e.target.closest(".tGeoIPtest button");
+                    if (!btn) {
+                        return;
+                    }
 
-                    ip = $(".tGeoIPtest input").val();
+                    e.preventDefault();
+
+                    ip = document.querySelector(".tGeoIPtest input").value;
 
                     if (!ip) {
                         alert("Please enter a valid IP address");
                         return false;
                     }
 
-                    $.ajax({ 
-                        type: "POST",
-                        url: "' . $ajaxURL . '",
-                        dataType: "json",
-                        data: { 
-                            ip: "" + ip + ""
-                        },
-                        success: function(response) {
-                            if (response) {
-                                
-                                if (response.continent) {
-                                    $(".tGeoIPtest .continent").html(response.continent.names.en);
-                                }
+                    var data = new FormData();
+                    data.append("ip", ip);
 
-                                if (response.city) {
-                                    $(".tGeoIPtest .city").html(response.city.names.en);
-                                }
-
-                                if (response.country) {
-                                    $(".tGeoIPtest .country").html(response.country.names.en);
-                                    $(".tGeoIPtest .country_code").html(response.country.iso_code); 
-                                }
-
-                                $(".tGeoIPtest .results").fadeIn("fast");
-                            } else {
-                                alert("Invalid IP address");
-                                $(".tGeoIPtest .results").fadeOut("fast");
+                    fetch("' . $ajaxURL . '",
+                    {
+                        method: "POST",
+                        body: data
+                    })
+                    .then(function(res){ return res.json(); })
+                    .then(function(response){
+                        if (response) {
+                            if (response.continent) {
+                                document.querySelector(".tGeoIPtest .continent").innerHTML = response.continent.names.en;
                             }
+
+                            if (response.city) {
+                                document.querySelector(".tGeoIPtest .city").innerHTML = response.city.names.en;
+                            }
+
+                            if (response.country) {
+                                document.querySelector(".tGeoIPtest .country").innerHTML = response.country.names.en;
+                                document.querySelector(".tGeoIPtest .country_code").innerHTML = response.country.iso_code;
+                            }
+
+                            document.querySelector(".tGeoIPtest .results").style.display = "block";
+                        } else {
+                            alert("Invalid IP address");
+                            document.querySelector(".tGeoIPtest .results").style.display = "none";
                         }
-                    });
+                    })
 
                     return false;
                 })
