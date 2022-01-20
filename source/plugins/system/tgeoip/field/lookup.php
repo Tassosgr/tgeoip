@@ -13,6 +13,8 @@
 // No direct access to this file
 defined('_JEXEC') or die;
 
+use NRFramework\User;
+
 class JFormFieldTG_Lookup extends JFormField
 {
     /**
@@ -86,7 +88,7 @@ class JFormFieldTG_Lookup extends JFormField
         ');
 
         // HTML
-        $ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : ''; 
+        $ip = User::getIP(); 
 
         return '<div class="tGeoIPtest">
             <input class="form-control input-medium" type="text" value="' . $ip . '"/>
