@@ -1,4 +1,4 @@
-project.*
+*.code-workspace
 releases/
 source/plugins/system/tgeoip/db/*.mmdb
 .vscode
