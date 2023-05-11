@@ -1,6 +1,99 @@
 CHANGELOG
 =========
 
+2.13.0 (2022-08-05)
+-------------------
+
+* The model class names are no longer constructed by concatenating strings.
+  This change was made to improve support for tools like PHP-Scoper.
+  Reported by Andrew Mead. GitHub #194.
+* Box 4.0.1 is now used to generate the `geoip2.phar` file.
+
+2.12.2 (2021-11-30)
+-------------------
+
+* The `geoip2.phar` now works when included from another directory.
+  Reported by Eduardo Ruiz. GitHub #179.
+
+2.12.1 (2021-11-23)
+-------------------
+
+* The `geoip2.phar` included in 2.12.0 would only work in CLI applications.
+  This was due to a change in Box 3.x. The Phar should now work in all
+  applications. This release only affects users of the Phar file.
+
+2.12.0 (2021-11-18)
+-------------------
+
+* Support for mobile country code (MCC) and mobile network codes (MNC) was
+  added for the GeoIP2 ISP and Enterprise databases as well as the GeoIP2
+  City and Insights web services. `$mobileCountryCode` and
+  `$mobileNetworkCode` properties were added to `GeoIp2\Model\Isp`
+  for the GeoIP2 ISP database and `GeoIp2\Record\Traits` for the Enterprise
+  database and the GeoIP2 City and Insights web services. We expect this data
+  to be available by late January, 2022.
+* `geoip2.phar` is now generated with Box 3.x.
+
+2.11.0 (2020-10-01)
+-------------------
+
+* IMPORTANT: PHP 7.2 or greater is now required.
+* Added the `isResidentialProxy` property to `GeoIp2\Model\AnonymousIP` and
+  `GeoIp2\Record\Traits`.
+* Additional type hints have been added.
+
+2.10.0 (2019-12-12)
+-------------------
+
+* PHP 5.6 or greater is now required.
+* The `network` property was added to `GeoIp2\Record\Traits`,
+  `GeoIp2\Model\AnonymousIp`, `GeoIp2\Model\Asn`,
+  `GeoIp2\Model\ConnectionType`, `Geoip2\Model\Domain`,
+  and `GeoIp2\Model\Isp`. This is a string in CIDR format representing the
+  largest network where all of the properties besides `ipAddress` have the
+  same value.
+* Updated documentation of anonymizer properties - `isAnonymousVpn`
+  and `isHostingProvider` - to be more descriptive.
+* The `userCount` property was added to `GeoIp2\Record\Traits`. This is an
+  integer which indicates the estimated number of users sharing the
+  IP/network during the past 24 hours. This output is available from GeoIP2
+  Precision Insights.
+* The `staticIpScore` property was added to `GeoIp2\Record\Traits`. This is
+  a float which indicates how static or dynamic an IP address is. This
+  output is available from GeoIP2 Precision Insights.
+
+2.9.0 (2018-04-10)
+------------------
+
+* Refer to account IDs using the terminology "account" rather than "user".
+
+2.8.0 (2018-01-18)
+------------------
+
+* The `isInEuropeanUnion` property was added to `GeoIp2\Record\Country`
+  and `GeoIp2\Record\RepresentedCountry`. This property is `true` if the
+  country is a member state of the European Union.
+
+2.7.0 (2017-10-27)
+------------------
+
+* The following new anonymizer properties were added to `GeoIp2\Record\Traits`
+  for use with GeoIP2 Precision Insights: `isAnonymous`, `isAnonymousVpn`,
+  `isHostingProvider`, `isPublicProxy`, and `isTorExitNode`.
+
+2.6.0 (2017-07-10)
+-----------------
+
+* Code clean-up and tidying.
+* Set minimum required PHP version to 5.4 in `composer.json`. Previously,
+  5.3 would work but was not tested. Now 5.4 is hard minimum version.
+
+2.5.0 (2017-05-08)
+------------------
+
+* Support for PHP 5.3 was dropped.
+* Added support for GeoLite2 ASN database.
+
 2.4.5 (2017-01-31)
 ------------------
 

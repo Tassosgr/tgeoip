@@ -9,7 +9,7 @@
 	<license>http://www.gnu.org/licenses/gpl-3.0.html GNU/GPL</license>
 	<authorEmail>info@tassos.gr</authorEmail>
 	<authorUrl>http://www.tassos.gr</authorUrl>
-	<scriptfile>script.install.php</scriptfile>
+	<!-- <scriptfile>script.install.php</scriptfile> -->
 	<files>
 		<filename plugin="tgeoip">tgeoip.php</filename>
 		<filename>script.install.helper.php</filename>

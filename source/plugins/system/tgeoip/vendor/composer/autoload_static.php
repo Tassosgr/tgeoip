@@ -13,8 +13,9 @@ class ComposerStaticInit2994eebabe3e6b260b60cab24a9b085e
         ),
         'M' => 
         array (
+            'MaxMind\\WebService\\' => 19,
+            'MaxMind\\Exception\\' => 18,
             'MaxMind\\Db\\' => 11,
-            'MaxMind\\' => 8,
         ),
         'G' => 
         array (
@@ -31,13 +32,17 @@ class ComposerStaticInit2994eebabe3e6b260b60cab24a9b085e
         array (
             0 => __DIR__ . '/..' . '/splitbrain/php-archive/src',
         ),
+        'MaxMind\\WebService\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/maxmind/web-service-common/src/WebService',
+        ),
+        'MaxMind\\Exception\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/maxmind/web-service-common/src/Exception',
+        ),
         'MaxMind\\Db\\' => 
         array (
             0 => __DIR__ . '/..' . '/maxmind-db/reader/src/MaxMind/Db',
-        ),
-        'MaxMind\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/maxmind/web-service-common/src',
         ),
         'GeoIp2\\' => 
         array (
@@ -49,11 +54,16 @@ class ComposerStaticInit2994eebabe3e6b260b60cab24a9b085e
         ),
     );
 
+    public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+    );
+
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit2994eebabe3e6b260b60cab24a9b085e::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit2994eebabe3e6b260b60cab24a9b085e::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit2994eebabe3e6b260b60cab24a9b085e::$classMap;
 
         }, null, ClassLoader::class);
     }
