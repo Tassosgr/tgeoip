@@ -5,9 +5,9 @@
 This is the PHP API for reading MaxMind DB files. MaxMind DB is a binary file
 format that stores data indexed by IP address subnets (IPv4 or IPv6).
 
-## Installation ##
+## Installation (Composer) ##
 
-We recommend installing this package with [Composer](http://getcomposer.org/).
+We recommend installing this package with [Composer](https://getcomposer.org/).
 
 ### Download Composer ###
 
@@ -40,6 +40,42 @@ from your code:
 require 'vendor/autoload.php';
 ```
 
+## Installation (Standalone) ##
+
+If you don't want to use Composer for some reason, a custom
+`autoload.php` is provided for you in the project root. To use the
+library, simply include that file,
+
+```php
+require('/path/to/MaxMind-DB-Reader-php/autoload.php');
+```
+
+and then instantiate the reader class normally:
+
+```php
+use MaxMind\Db\Reader;
+$reader = new Reader('example.mmdb');
+```
+
+## Installation (RPM)
+
+RPMs are available in the [official Fedora repository](https://apps.fedoraproject.org/packages/php-maxminddb).
+
+To install on Fedora, run:
+
+```bash
+dnf install php-maxminddb
+```
+
+To install on CentOS or RHEL 7, first [enable the EPEL repository](https://fedoraproject.org/wiki/EPEL)
+and then run:
+
+```bash
+yum install php-maxminddb
+```
+
+Please note that these packages are *not* maintained by MaxMind.
+
 ## Usage ##
 
 ## Example ##
@@ -55,7 +91,12 @@ $databaseFile = 'GeoIP2-City.mmdb';
 
 $reader = new Reader($databaseFile);
 
+// get returns just the record for the IP address
 print_r($reader->get($ipAddress));
+
+// getWithPrefixLen returns an array containing the record and the
+// associated prefix length for that record.
+print_r($reader->getWithPrefixLen($ipAddress));
 
 $reader->close();
 ```
@@ -71,9 +112,16 @@ you are using an autoloader, no changes to your code should be necessary.
 
 First install [libmaxminddb](https://github.com/maxmind/libmaxminddb) as
 described in its [README.md
-file](https://github.com/maxmind/libmaxminddb/blob/master/README.md#installing-from-a-tarball).
-After successfully installing libmaxmindb, run the following commands from the
-top-level directory of this distribution:
+file](https://github.com/maxmind/libmaxminddb/blob/main/README.md#installing-from-a-tarball).
+After successfully installing libmaxmindb, you may install the extension
+from [pecl](https://pecl.php.net/package/maxminddb):
+
+```
+pecl install maxminddb
+```
+
+Alternatively, you may install it from the source. To do so, run the following
+commands from the top-level directory of this distribution:
 
 ```
 cd ext
@@ -109,17 +157,14 @@ breaking change.
 
 ## Support ##
 
-Please report all issues with this code using the [GitHub issue tracker]
-(https://github.com/maxmind/MaxMind-DB-Reader-php/issues).
+Please report all issues with this code using the [GitHub issue tracker](https://github.com/maxmind/MaxMind-DB-Reader-php/issues).
 
 If you are having an issue with a MaxMind service that is not specific to the
-client API, please see [our support page](http://www.maxmind.com/en/support).
+client API, please see [our support page](https://www.maxmind.com/en/support).
 
 ## Requirements  ##
 
-This library requires PHP 5.3 or greater. Older versions of PHP are not
-supported. The pure PHP reader included with this library is works and is
-tested with HHVM.
+This library requires PHP 7.2 or greater.
 
 The GMP or BCMath extension may be required to read some databases
 using the pure PHP API.
@@ -131,10 +176,10 @@ PSR-2 style guidelines. Please include unit tests whenever possible.
 
 ## Versioning ##
 
-The MaxMind DB Reader PHP API uses [Semantic Versioning](http://semver.org/).
+The MaxMind DB Reader PHP API uses [Semantic Versioning](https://semver.org/).
 
 ## Copyright and License ##
 
-This software is Copyright (c) 2014 by MaxMind, Inc.
+This software is Copyright (c) 2014-2020 by MaxMind, Inc.
 
 This is free software, licensed under the Apache License, Version 2.0.
