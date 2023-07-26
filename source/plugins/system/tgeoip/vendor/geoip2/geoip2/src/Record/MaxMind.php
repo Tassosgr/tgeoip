@@ -1,8 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
-namespace GeoIp2\Record;
+declare (strict_types=1);
+namespace TassosFramework\Vendor\GeoIp2\Record;
 
 /**
  * Contains data about your account.

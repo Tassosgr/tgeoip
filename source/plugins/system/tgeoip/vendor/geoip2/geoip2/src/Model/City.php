@@ -1,8 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
-namespace GeoIp2\Model;
+declare (strict_types=1);
+namespace TassosFramework\Vendor\GeoIp2\Model;
 
 /**
  * Model class for the data returned by City Plus web service and City
@@ -37,55 +36,44 @@ class City extends Country
      * @var \GeoIp2\Record\City
      */
     protected $city;
-
     /**
      * @ignore
      *
      * @var \GeoIp2\Record\Location
      */
     protected $location;
-
     /**
      * @ignore
      *
      * @var \GeoIp2\Record\Postal
      */
     protected $postal;
-
     /**
      * @ignore
      *
      * @var array<\GeoIp2\Record\Subdivision>
      */
     protected $subdivisions = [];
-
     /**
      * @ignore
      */
     public function __construct(array $raw, array $locales = ['en'])
     {
         parent::__construct($raw, $locales);
-
-        $this->city = new \GeoIp2\Record\City($this->get('city'), $locales);
-        $this->location = new \GeoIp2\Record\Location($this->get('location'));
-        $this->postal = new \GeoIp2\Record\Postal($this->get('postal'));
-
+        $this->city = new \TassosFramework\Vendor\GeoIp2\Record\City($this->get('city'), $locales);
+        $this->location = new \TassosFramework\Vendor\GeoIp2\Record\Location($this->get('location'));
+        $this->postal = new \TassosFramework\Vendor\GeoIp2\Record\Postal($this->get('postal'));
         $this->createSubdivisions($raw, $locales);
     }
-
-    private function createSubdivisions(array $raw, array $locales): void
+    private function createSubdivisions(array $raw, array $locales) : void
     {
         if (!isset($raw['subdivisions'])) {
             return;
         }
-
         foreach ($raw['subdivisions'] as $sub) {
-            $this->subdivisions[] =
-                new \GeoIp2\Record\Subdivision($sub, $locales)
-            ;
+            $this->subdivisions[] = new \TassosFramework\Vendor\GeoIp2\Record\Subdivision($sub, $locales);
         }
     }
-
     /**
      * @ignore
      *
@@ -96,28 +84,22 @@ class City extends Country
         if ($attr === 'mostSpecificSubdivision') {
             return $this->{$attr}();
         }
-
         return parent::__get($attr);
     }
-
     /**
      * @ignore
      */
-    public function __isset(string $attr): bool
+    public function __isset(string $attr) : bool
     {
         if ($attr === 'mostSpecificSubdivision') {
             // We always return a mostSpecificSubdivision, even if it is the
             // empty subdivision
-            return true;
+            return \true;
         }
-
         return parent::__isset($attr);
     }
-
-    private function mostSpecificSubdivision(): \GeoIp2\Record\Subdivision
+    private function mostSpecificSubdivision() : \TassosFramework\Vendor\GeoIp2\Record\Subdivision
     {
-        return empty($this->subdivisions) ?
-            new \GeoIp2\Record\Subdivision([], $this->locales) :
-            end($this->subdivisions);
+        return empty($this->subdivisions) ? new \TassosFramework\Vendor\GeoIp2\Record\Subdivision([], $this->locales) : \end($this->subdivisions);
     }
 }

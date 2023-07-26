@@ -1,8 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
-namespace GeoIp2\Record;
+declare (strict_types=1);
+namespace TassosFramework\Vendor\GeoIp2\Record;
 
 /**
  * Contains data for the represented country associated with an IP address.
@@ -22,12 +21,5 @@ class RepresentedCountry extends Country
      *
      * @var array<string>
      */
-    protected $validAttributes = [
-        'confidence',
-        'geonameId',
-        'isInEuropeanUnion',
-        'isoCode',
-        'names',
-        'type',
-    ];
+    protected $validAttributes = ['confidence', 'geonameId', 'isInEuropeanUnion', 'isoCode', 'names', 'type'];
 }

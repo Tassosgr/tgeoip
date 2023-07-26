@@ -1,8 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
-namespace MaxMind\Exception;
+declare (strict_types=1);
+namespace TassosFramework\Vendor\MaxMind\Exception;
 
 /**
  * This class represents an error in creating the request to be sent to the

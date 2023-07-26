@@ -1,8 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
-namespace GeoIp2\Model;
+declare (strict_types=1);
+namespace TassosFramework\Vendor\GeoIp2\Model;
 
 /**
  * Model class for the data returned by GeoIP2 Country web service and database.
@@ -34,63 +33,42 @@ class Country extends AbstractModel
      * @var \GeoIp2\Record\Continent
      */
     protected $continent;
-
     /**
      * @var \GeoIp2\Record\Country
      */
     protected $country;
-
     /**
      * @var array<string>
      */
     protected $locales;
-
     /**
      * @var \GeoIp2\Record\MaxMind
      */
     protected $maxmind;
-
     /**
      * @var \GeoIp2\Record\Country
      */
     protected $registeredCountry;
-
     /**
      * @var \GeoIp2\Record\RepresentedCountry
      */
     protected $representedCountry;
-
     /**
      * @var \GeoIp2\Record\Traits
      */
     protected $traits;
-
     /**
      * @ignore
      */
     public function __construct(array $raw, array $locales = ['en'])
     {
         parent::__construct($raw);
-
-        $this->continent = new \GeoIp2\Record\Continent(
-            $this->get('continent'),
-            $locales
-        );
-        $this->country = new \GeoIp2\Record\Country(
-            $this->get('country'),
-            $locales
-        );
-        $this->maxmind = new \GeoIp2\Record\MaxMind($this->get('maxmind'));
-        $this->registeredCountry = new \GeoIp2\Record\Country(
-            $this->get('registered_country'),
-            $locales
-        );
-        $this->representedCountry = new \GeoIp2\Record\RepresentedCountry(
-            $this->get('represented_country'),
-            $locales
-        );
-        $this->traits = new \GeoIp2\Record\Traits($this->get('traits'));
-
+        $this->continent = new \TassosFramework\Vendor\GeoIp2\Record\Continent($this->get('continent'), $locales);
+        $this->country = new \TassosFramework\Vendor\GeoIp2\Record\Country($this->get('country'), $locales);
+        $this->maxmind = new \TassosFramework\Vendor\GeoIp2\Record\MaxMind($this->get('maxmind'));
+        $this->registeredCountry = new \TassosFramework\Vendor\GeoIp2\Record\Country($this->get('registered_country'), $locales);
+        $this->representedCountry = new \TassosFramework\Vendor\GeoIp2\Record\RepresentedCountry($this->get('represented_country'), $locales);
+        $this->traits = new \TassosFramework\Vendor\GeoIp2\Record\Traits($this->get('traits'));
         $this->locales = $locales;
     }
 }

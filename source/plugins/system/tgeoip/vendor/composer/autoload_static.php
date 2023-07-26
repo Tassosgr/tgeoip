@@ -7,48 +7,39 @@ namespace Composer\Autoload;
 class ComposerStaticInit2994eebabe3e6b260b60cab24a9b085e
 {
     public static $prefixLengthsPsr4 = array (
-        's' => 
+        'T' => 
         array (
-            'splitbrain\\PHPArchive\\' => 22,
-        ),
-        'M' => 
-        array (
-            'MaxMind\\WebService\\' => 19,
-            'MaxMind\\Exception\\' => 18,
-            'MaxMind\\Db\\' => 11,
-        ),
-        'G' => 
-        array (
-            'GeoIp2\\' => 7,
-        ),
-        'C' => 
-        array (
-            'Composer\\CaBundle\\' => 18,
+            'TassosFramework\\Vendor\\splitbrain\\PHPArchive\\' => 45,
+            'TassosFramework\\Vendor\\MaxMind\\WebService\\' => 42,
+            'TassosFramework\\Vendor\\MaxMind\\Exception\\' => 41,
+            'TassosFramework\\Vendor\\MaxMind\\Db\\' => 34,
+            'TassosFramework\\Vendor\\GeoIp2\\' => 30,
+            'TassosFramework\\Vendor\\Composer\\CaBundle\\' => 41,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'splitbrain\\PHPArchive\\' => 
+        'TassosFramework\\Vendor\\splitbrain\\PHPArchive\\' => 
         array (
             0 => __DIR__ . '/..' . '/splitbrain/php-archive/src',
         ),
-        'MaxMind\\WebService\\' => 
+        'TassosFramework\\Vendor\\MaxMind\\WebService\\' => 
         array (
             0 => __DIR__ . '/..' . '/maxmind/web-service-common/src/WebService',
         ),
-        'MaxMind\\Exception\\' => 
+        'TassosFramework\\Vendor\\MaxMind\\Exception\\' => 
         array (
             0 => __DIR__ . '/..' . '/maxmind/web-service-common/src/Exception',
         ),
-        'MaxMind\\Db\\' => 
+        'TassosFramework\\Vendor\\MaxMind\\Db\\' => 
         array (
             0 => __DIR__ . '/..' . '/maxmind-db/reader/src/MaxMind/Db',
         ),
-        'GeoIp2\\' => 
+        'TassosFramework\\Vendor\\GeoIp2\\' => 
         array (
             0 => __DIR__ . '/..' . '/geoip2/geoip2/src',
         ),
-        'Composer\\CaBundle\\' => 
+        'TassosFramework\\Vendor\\Composer\\CaBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/composer/ca-bundle/src',
         ),

@@ -1,8 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
-namespace GeoIp2\Exception;
+declare (strict_types=1);
+namespace TassosFramework\Vendor\GeoIp2\Exception;
 
 /**
  * This class represents an error returned by MaxMind's GeoIP2
@@ -16,14 +15,8 @@ class InvalidRequestException extends HttpException
      * @var string
      */
     public $error;
-
-    public function __construct(
-        string $message,
-        string $error,
-        int $httpStatus,
-        string $uri,
-        \Exception $previous = null
-    ) {
+    public function __construct(string $message, string $error, int $httpStatus, string $uri, \Exception $previous = null)
+    {
         $this->error = $error;
         parent::__construct($message, $httpStatus, $uri, $previous);
     }

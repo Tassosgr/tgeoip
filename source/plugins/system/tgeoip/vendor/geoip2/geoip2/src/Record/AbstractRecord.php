@@ -1,8 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
-namespace GeoIp2\Record;
+declare (strict_types=1);
+namespace TassosFramework\Vendor\GeoIp2\Record;
 
 abstract class AbstractRecord implements \JsonSerializable
 {
@@ -10,7 +9,6 @@ abstract class AbstractRecord implements \JsonSerializable
      * @var array<string, mixed>
      */
     private $record;
-
     /**
      * @ignore
      */
@@ -18,7 +16,6 @@ abstract class AbstractRecord implements \JsonSerializable
     {
         $this->record = isset($record) ? $record : [];
     }
-
     /**
      * @ignore
      *
@@ -28,39 +25,31 @@ abstract class AbstractRecord implements \JsonSerializable
     {
         // XXX - kind of ugly but greatly reduces boilerplate code
         $key = $this->attributeToKey($attr);
-
         if ($this->__isset($attr)) {
             return $this->record[$key];
         }
         if ($this->validAttribute($attr)) {
-            if (preg_match('/^is_/', $key)) {
-                return false;
+            if (\preg_match('/^is_/', $key)) {
+                return \false;
             }
-
             return null;
         }
-
-        throw new \RuntimeException("Unknown attribute: $attr");
+        throw new \RuntimeException("Unknown attribute: {$attr}");
     }
-
-    public function __isset(string $attr): bool
+    public function __isset(string $attr) : bool
     {
-        return $this->validAttribute($attr)
-             && isset($this->record[$this->attributeToKey($attr)]);
+        return $this->validAttribute($attr) && isset($this->record[$this->attributeToKey($attr)]);
     }
-
-    private function attributeToKey(string $attr): string
+    private function attributeToKey(string $attr) : string
     {
-        return strtolower(preg_replace('/([A-Z])/', '_\1', $attr));
+        return \strtolower(\preg_replace('/([A-Z])/', '_\1', $attr));
     }
-
-    private function validAttribute(string $attr): bool
+    private function validAttribute(string $attr) : bool
     {
         // @phpstan-ignore-next-line
-        return \in_array($attr, $this->validAttributes, true);
+        return \in_array($attr, $this->validAttributes, \true);
     }
-
-    public function jsonSerialize(): ?array
+    public function jsonSerialize() : ?array
     {
         return $this->record;
     }

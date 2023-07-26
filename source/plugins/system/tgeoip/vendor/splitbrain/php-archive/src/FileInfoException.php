@@ -1,6 +1,6 @@
 <?php
 
-namespace splitbrain\PHPArchive;
+namespace TassosFramework\Vendor\splitbrain\PHPArchive;
 
 /**
  * File meta data problems

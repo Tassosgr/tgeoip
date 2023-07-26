@@ -1,18 +1,15 @@
 <?php
 
-namespace splitbrain\PHPArchive;
+namespace TassosFramework\Vendor\splitbrain\PHPArchive;
 
 abstract class Archive
 {
-
     const COMPRESS_AUTO = -1;
     const COMPRESS_NONE = 0;
     const COMPRESS_GZIP = 1;
     const COMPRESS_BZIP = 2;
-
     /** @var callable */
     protected $callback;
-
     /**
      * Set the compression level and type
      *
@@ -20,16 +17,14 @@ abstract class Archive
      * @param int $type  Type of compression to use (use COMPRESS_* constants)
      * @throws ArchiveIllegalCompressionException
      */
-    abstract public function setCompression($level = 9, $type = Archive::COMPRESS_AUTO);
-
+    public abstract function setCompression($level = 9, $type = Archive::COMPRESS_AUTO);
     /**
      * Open an existing archive file for reading
      *
      * @param string $file
      * @throws ArchiveIOException
      */
-    abstract public function open($file);
-
+    public abstract function open($file);
     /**
      * Read the contents of an archive
      *
@@ -40,8 +35,7 @@ abstract class Archive
      *
      * @return FileInfo[]
      */
-    abstract public function contents();
-
+    public abstract function contents();
     /**
      * Extract an existing archive
      *
@@ -66,8 +60,7 @@ abstract class Archive
      * @throws ArchiveIOException
      * @return array
      */
-    abstract public function extract($outdir, $strip = '', $exclude = '', $include = '');
-
+    public abstract function extract($outdir, $strip = '', $exclude = '', $include = '');
     /**
      * Create a new archive file
      *
@@ -75,8 +68,7 @@ abstract class Archive
      *
      * @param string $file
      */
-    abstract public function create($file = '');
-
+    public abstract function create($file = '');
     /**
      * Add a file to the current archive using an existing file in the filesystem
      *
@@ -84,8 +76,7 @@ abstract class Archive
      * @param string|FileInfo $fileinfo either the name to us in archive (string) or a FileInfo oject with all meta data, empty to take from original
      * @throws ArchiveIOException
      */
-    abstract public function addFile($file, $fileinfo = '');
-
+    public abstract function addFile($file, $fileinfo = '');
     /**
      * Add a file to the current archive using the given $data as content
      *
@@ -93,23 +84,20 @@ abstract class Archive
      * @param string          $data     binary content of the file to add
      * @throws ArchiveIOException
      */
-    abstract public function addData($fileinfo, $data);
-
+    public abstract function addData($fileinfo, $data);
     /**
      * Close the archive, close all file handles
      *
      * After a call to this function no more data can be added to the archive, for
      * read access no reading is allowed anymore
      */
-    abstract public function close();
-
+    public abstract function close();
     /**
      * Returns the created in-memory archive data
      *
      * This implicitly calls close() on the Archive
      */
-    abstract public function getArchive();
-
+    public abstract function getArchive();
     /**
      * Save the created in-memory archive data
      *
@@ -118,8 +106,7 @@ abstract class Archive
      *
      * @param string $file
      */
-    abstract public function save($file);
-
+    public abstract function save($file);
     /**
      * Set a callback function to be called whenever a file is added or extracted.
      *

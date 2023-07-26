@@ -1,11 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace TassosFramework\Vendor\GeoIp2\Record;
 
-namespace GeoIp2\Record;
-
-use GeoIp2\Util;
-
+use TassosFramework\Vendor\GeoIp2\Util;
 /**
  * Contains data for the traits record associated with an IP address.
  *
@@ -122,37 +120,12 @@ class Traits extends AbstractRecord
      *
      * @var array<string>
      */
-    protected $validAttributes = [
-        'autonomousSystemNumber',
-        'autonomousSystemOrganization',
-        'connectionType',
-        'domain',
-        'ipAddress',
-        'isAnonymous',
-        'isAnonymousProxy',
-        'isAnonymousVpn',
-        'isHostingProvider',
-        'isLegitimateProxy',
-        'isp',
-        'isPublicProxy',
-        'isResidentialProxy',
-        'isSatelliteProvider',
-        'isTorExitNode',
-        'mobileCountryCode',
-        'mobileNetworkCode',
-        'network',
-        'organization',
-        'staticIpScore',
-        'userCount',
-        'userType',
-    ];
-
+    protected $validAttributes = ['autonomousSystemNumber', 'autonomousSystemOrganization', 'connectionType', 'domain', 'ipAddress', 'isAnonymous', 'isAnonymousProxy', 'isAnonymousVpn', 'isHostingProvider', 'isLegitimateProxy', 'isp', 'isPublicProxy', 'isResidentialProxy', 'isSatelliteProvider', 'isTorExitNode', 'mobileCountryCode', 'mobileNetworkCode', 'network', 'organization', 'staticIpScore', 'userCount', 'userType'];
     public function __construct(?array $record)
     {
         if (!isset($record['network']) && isset($record['ip_address'], $record['prefix_len'])) {
             $record['network'] = Util::cidr($record['ip_address'], $record['prefix_len']);
         }
-
         parent::__construct($record);
     }
 }
