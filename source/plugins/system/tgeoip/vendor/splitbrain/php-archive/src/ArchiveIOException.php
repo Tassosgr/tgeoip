@@ -1,6 +1,6 @@
 <?php
 
-namespace splitbrain\PHPArchive;
+namespace Tassos\Vendor\splitbrain\PHPArchive;
 
 /**
  * Read/Write Errors

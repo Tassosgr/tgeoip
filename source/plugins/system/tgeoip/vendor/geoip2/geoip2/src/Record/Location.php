@@ -1,8 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
-namespace GeoIp2\Record;
+declare (strict_types=1);
+namespace Tassos\Vendor\GeoIp2\Record;
 
 /**
  * Contains data for the location record associated with an IP address.
@@ -42,15 +41,5 @@ class Location extends AbstractRecord
      *
      * @var array<string>
      */
-    protected $validAttributes = [
-        'averageIncome',
-        'accuracyRadius',
-        'latitude',
-        'longitude',
-        'metroCode',
-        'populationDensity',
-        'postalCode',
-        'postalConfidence',
-        'timeZone',
-    ];
+    protected $validAttributes = ['averageIncome', 'accuracyRadius', 'latitude', 'longitude', 'metroCode', 'populationDensity', 'postalCode', 'postalConfidence', 'timeZone'];
 }

@@ -1,21 +1,19 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Tassos\Vendor\GeoIp2\WebService;
 
-namespace GeoIp2\WebService;
-
-use GeoIp2\Exception\AddressNotFoundException;
-use GeoIp2\Exception\AuthenticationException;
-use GeoIp2\Exception\GeoIp2Exception;
-use GeoIp2\Exception\HttpException;
-use GeoIp2\Exception\InvalidRequestException;
-use GeoIp2\Exception\OutOfQueriesException;
-use GeoIp2\Model\City;
-use GeoIp2\Model\Country;
-use GeoIp2\Model\Insights;
-use GeoIp2\ProviderInterface;
-use MaxMind\WebService\Client as WsClient;
-
+use Tassos\Vendor\GeoIp2\Exception\AddressNotFoundException;
+use Tassos\Vendor\GeoIp2\Exception\AuthenticationException;
+use Tassos\Vendor\GeoIp2\Exception\GeoIp2Exception;
+use Tassos\Vendor\GeoIp2\Exception\HttpException;
+use Tassos\Vendor\GeoIp2\Exception\InvalidRequestException;
+use Tassos\Vendor\GeoIp2\Exception\OutOfQueriesException;
+use Tassos\Vendor\GeoIp2\Model\City;
+use Tassos\Vendor\GeoIp2\Model\Country;
+use Tassos\Vendor\GeoIp2\Model\Insights;
+use Tassos\Vendor\GeoIp2\ProviderInterface;
+use Tassos\Vendor\MaxMind\WebService\Client as WsClient;
 /**
  * This class provides a client API for all the GeoIP2 web services.
  * The services are Country, City Plus, and Insights. Each service returns
@@ -52,19 +50,15 @@ class Client implements ProviderInterface
      * @var array<string>
      */
     private $locales;
-
     /**
      * @var WsClient
      */
     private $client;
-
     /**
      * @var string
      */
     private static $basePath = '/geoip/v2.1';
-
     public const VERSION = 'v2.13.0';
-
     /**
      * Constructor.
      *
@@ -83,35 +77,25 @@ class Client implements ProviderInterface
      *                           username, and password, e.g.,
      *                           `http://username:password@127.0.0.1:10`.
      */
-    public function __construct(
-        int $accountId,
-        string $licenseKey,
-        array $locales = ['en'],
-        array $options = []
-    ) {
+    public function __construct(int $accountId, string $licenseKey, array $locales = ['en'], array $options = [])
+    {
         $this->locales = $locales;
-
         // This is for backwards compatibility. Do not remove except for a
         // major version bump.
         // @phpstan-ignore-next-line
         if (\is_string($options)) {
             $options = ['host' => $options];
         }
-
         if (!isset($options['host'])) {
             $options['host'] = 'geoip.maxmind.com';
         }
-
         $options['userAgent'] = $this->userAgent();
-
         $this->client = new WsClient($accountId, $licenseKey, $options);
     }
-
-    private function userAgent(): string
+    private function userAgent() : string
     {
         return 'GeoIP2-API/' . self::VERSION;
     }
-
     /**
      * This method calls the City Plus service.
      *
@@ -136,12 +120,11 @@ class Client implements ProviderInterface
      *                                           class to the above exceptions. It will be thrown directly
      *                                           if a 200 status code is returned but the body is invalid.
      */
-    public function city(string $ipAddress = 'me'): City
+    public function city(string $ipAddress = 'me') : City
     {
         // @phpstan-ignore-next-line
         return $this->responseFor('city', City::class, $ipAddress);
     }
-
     /**
      * This method calls the Country service.
      *
@@ -166,11 +149,10 @@ class Client implements ProviderInterface
      *                                           will be thrown directly if a 200 status code is returned but
      *                                           the body is invalid.
      */
-    public function country(string $ipAddress = 'me'): Country
+    public function country(string $ipAddress = 'me') : Country
     {
         return $this->responseFor('country', Country::class, $ipAddress);
     }
-
     /**
      * This method calls the Insights service. Insights is only supported by
      * the GeoIP2 web service. The GeoLite2 web service does not support it.
@@ -196,60 +178,30 @@ class Client implements ProviderInterface
      *                                           class to the above exceptions. It will be thrown directly
      *                                           if a 200 status code is returned but the body is invalid.
      */
-    public function insights(string $ipAddress = 'me'): Insights
+    public function insights(string $ipAddress = 'me') : Insights
     {
         // @phpstan-ignore-next-line
         return $this->responseFor('insights', Insights::class, $ipAddress);
     }
-
-    private function responseFor(string $endpoint, string $class, string $ipAddress): Country
+    private function responseFor(string $endpoint, string $class, string $ipAddress) : Country
     {
-        $path = implode('/', [self::$basePath, $endpoint, $ipAddress]);
-
+        $path = \implode('/', [self::$basePath, $endpoint, $ipAddress]);
         try {
             $service = (new \ReflectionClass($class))->getShortName();
             $body = $this->client->get('GeoIP2 ' . $service, $path);
-        } catch (\MaxMind\Exception\IpAddressNotFoundException $ex) {
-            throw new AddressNotFoundException(
-                $ex->getMessage(),
-                $ex->getStatusCode(),
-                $ex
-            );
-        } catch (\MaxMind\Exception\AuthenticationException $ex) {
-            throw new AuthenticationException(
-                $ex->getMessage(),
-                $ex->getStatusCode(),
-                $ex
-            );
-        } catch (\MaxMind\Exception\InsufficientFundsException $ex) {
-            throw new OutOfQueriesException(
-                $ex->getMessage(),
-                $ex->getStatusCode(),
-                $ex
-            );
-        } catch (\MaxMind\Exception\InvalidRequestException $ex) {
-            throw new InvalidRequestException(
-                $ex->getMessage(),
-                $ex->getErrorCode(),
-                $ex->getStatusCode(),
-                $ex->getUri(),
-                $ex
-            );
-        } catch (\MaxMind\Exception\HttpException $ex) {
-            throw new HttpException(
-                $ex->getMessage(),
-                $ex->getStatusCode(),
-                $ex->getUri(),
-                $ex
-            );
-        } catch (\MaxMind\Exception\WebServiceException $ex) {
-            throw new GeoIp2Exception(
-                $ex->getMessage(),
-                $ex->getCode(),
-                $ex
-            );
+        } catch (\Tassos\Vendor\MaxMind\Exception\IpAddressNotFoundException $ex) {
+            throw new AddressNotFoundException($ex->getMessage(), $ex->getStatusCode(), $ex);
+        } catch (\Tassos\Vendor\MaxMind\Exception\AuthenticationException $ex) {
+            throw new AuthenticationException($ex->getMessage(), $ex->getStatusCode(), $ex);
+        } catch (\Tassos\Vendor\MaxMind\Exception\InsufficientFundsException $ex) {
+            throw new OutOfQueriesException($ex->getMessage(), $ex->getStatusCode(), $ex);
+        } catch (\Tassos\Vendor\MaxMind\Exception\InvalidRequestException $ex) {
+            throw new InvalidRequestException($ex->getMessage(), $ex->getErrorCode(), $ex->getStatusCode(), $ex->getUri(), $ex);
+        } catch (\Tassos\Vendor\MaxMind\Exception\HttpException $ex) {
+            throw new HttpException($ex->getMessage(), $ex->getStatusCode(), $ex->getUri(), $ex);
+        } catch (\Tassos\Vendor\MaxMind\Exception\WebServiceException $ex) {
+            throw new GeoIp2Exception($ex->getMessage(), $ex->getCode(), $ex);
         }
-
         return new $class($body, $this->locales);
     }
 }

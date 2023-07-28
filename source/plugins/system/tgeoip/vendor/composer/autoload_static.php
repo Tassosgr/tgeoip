@@ -4,51 +4,42 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit2994eebabe3e6b260b60cab24a9b085e
+class ComposerStaticInit087ac1c88c9dd7b872309175c7c60d7d
 {
     public static $prefixLengthsPsr4 = array (
-        's' => 
+        'T' => 
         array (
-            'splitbrain\\PHPArchive\\' => 22,
-        ),
-        'M' => 
-        array (
-            'MaxMind\\WebService\\' => 19,
-            'MaxMind\\Exception\\' => 18,
-            'MaxMind\\Db\\' => 11,
-        ),
-        'G' => 
-        array (
-            'GeoIp2\\' => 7,
-        ),
-        'C' => 
-        array (
-            'Composer\\CaBundle\\' => 18,
+            'Tassos\\Vendor\\splitbrain\\PHPArchive\\' => 36,
+            'Tassos\\Vendor\\MaxMind\\WebService\\' => 33,
+            'Tassos\\Vendor\\MaxMind\\Exception\\' => 32,
+            'Tassos\\Vendor\\MaxMind\\Db\\' => 25,
+            'Tassos\\Vendor\\GeoIp2\\' => 21,
+            'Tassos\\Vendor\\Composer\\CaBundle\\' => 32,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'splitbrain\\PHPArchive\\' => 
+        'Tassos\\Vendor\\splitbrain\\PHPArchive\\' => 
         array (
             0 => __DIR__ . '/..' . '/splitbrain/php-archive/src',
         ),
-        'MaxMind\\WebService\\' => 
+        'Tassos\\Vendor\\MaxMind\\WebService\\' => 
         array (
             0 => __DIR__ . '/..' . '/maxmind/web-service-common/src/WebService',
         ),
-        'MaxMind\\Exception\\' => 
+        'Tassos\\Vendor\\MaxMind\\Exception\\' => 
         array (
             0 => __DIR__ . '/..' . '/maxmind/web-service-common/src/Exception',
         ),
-        'MaxMind\\Db\\' => 
+        'Tassos\\Vendor\\MaxMind\\Db\\' => 
         array (
             0 => __DIR__ . '/..' . '/maxmind-db/reader/src/MaxMind/Db',
         ),
-        'GeoIp2\\' => 
+        'Tassos\\Vendor\\GeoIp2\\' => 
         array (
             0 => __DIR__ . '/..' . '/geoip2/geoip2/src',
         ),
-        'Composer\\CaBundle\\' => 
+        'Tassos\\Vendor\\Composer\\CaBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/composer/ca-bundle/src',
         ),
@@ -61,9 +52,9 @@ class ComposerStaticInit2994eebabe3e6b260b60cab24a9b085e
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit2994eebabe3e6b260b60cab24a9b085e::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit2994eebabe3e6b260b60cab24a9b085e::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit2994eebabe3e6b260b60cab24a9b085e::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit087ac1c88c9dd7b872309175c7c60d7d::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit087ac1c88c9dd7b872309175c7c60d7d::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit087ac1c88c9dd7b872309175c7c60d7d::$classMap;
 
         }, null, ClassLoader::class);
     }

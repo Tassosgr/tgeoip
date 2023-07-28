@@ -1,8 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
-namespace GeoIp2\Model;
+declare (strict_types=1);
+namespace Tassos\Vendor\GeoIp2\Model;
 
 /**
  * @ignore
@@ -13,7 +12,6 @@ abstract class AbstractModel implements \JsonSerializable
      * @var array<string, mixed>
      */
     protected $raw;
-
     /**
      * @ignore
      */
@@ -21,7 +19,6 @@ abstract class AbstractModel implements \JsonSerializable
     {
         $this->raw = $raw;
     }
-
     /**
      * @ignore
      *
@@ -32,13 +29,11 @@ abstract class AbstractModel implements \JsonSerializable
         if (isset($this->raw[$field])) {
             return $this->raw[$field];
         }
-        if (preg_match('/^is_/', $field)) {
-            return false;
+        if (\preg_match('/^is_/', $field)) {
+            return \false;
         }
-
         return null;
     }
-
     /**
      * @ignore
      *
@@ -46,22 +41,19 @@ abstract class AbstractModel implements \JsonSerializable
      */
     public function __get(string $attr)
     {
-        if ($attr !== 'instance' && property_exists($this, $attr)) {
+        if ($attr !== 'instance' && \property_exists($this, $attr)) {
             return $this->{$attr};
         }
-
-        throw new \RuntimeException("Unknown attribute: $attr");
+        throw new \RuntimeException("Unknown attribute: {$attr}");
     }
-
     /**
      * @ignore
      */
-    public function __isset(string $attr): bool
+    public function __isset(string $attr) : bool
     {
         return $attr !== 'instance' && isset($this->{$attr});
     }
-
-    public function jsonSerialize(): array
+    public function jsonSerialize() : array
     {
         return $this->raw;
     }

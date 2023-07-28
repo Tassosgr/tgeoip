@@ -1,8 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
-namespace GeoIp2\Record;
+declare (strict_types=1);
+namespace Tassos\Vendor\GeoIp2\Record;
 
 abstract class AbstractPlaceRecord extends AbstractRecord
 {
@@ -10,7 +9,6 @@ abstract class AbstractPlaceRecord extends AbstractRecord
      * @var array<string>
      */
     private $locales;
-
     /**
      * @ignore
      */
@@ -19,7 +17,6 @@ abstract class AbstractPlaceRecord extends AbstractRecord
         $this->locales = $locales;
         parent::__construct($record);
     }
-
     /**
      * @ignore
      *
@@ -30,38 +27,31 @@ abstract class AbstractPlaceRecord extends AbstractRecord
         if ($attr === 'name') {
             return $this->name();
         }
-
         return parent::__get($attr);
     }
-
     /**
      * @ignore
      */
-    public function __isset(string $attr): bool
+    public function __isset(string $attr) : bool
     {
         if ($attr === 'name') {
             return $this->firstSetNameLocale() !== null;
         }
-
         return parent::__isset($attr);
     }
-
-    private function name(): ?string
+    private function name() : ?string
     {
         $locale = $this->firstSetNameLocale();
-
         // @phpstan-ignore-next-line
         return $locale === null ? null : $this->names[$locale];
     }
-
-    private function firstSetNameLocale(): ?string
+    private function firstSetNameLocale() : ?string
     {
         foreach ($this->locales as $locale) {
             if (isset($this->names[$locale])) {
                 return $locale;
             }
         }
-
         return null;
     }
 }

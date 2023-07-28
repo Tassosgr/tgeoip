@@ -1,8 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
-namespace MaxMind\Exception;
+declare (strict_types=1);
+namespace Tassos\Vendor\MaxMind\Exception;
 
 /**
  * Thrown when a MaxMind web service returns an error relating to the request.
@@ -15,7 +14,6 @@ class InvalidRequestException extends HttpException
      * @var string
      */
     private $error;
-
     /**
      * @param string     $message    the exception message
      * @param string     $error      the error code returned by the MaxMind web service
@@ -23,18 +21,12 @@ class InvalidRequestException extends HttpException
      * @param string     $uri        the URI queries
      * @param \Exception $previous   the previous exception, if any
      */
-    public function __construct(
-        string $message,
-        string $error,
-        int $httpStatus,
-        string $uri,
-        \Exception $previous = null
-    ) {
+    public function __construct(string $message, string $error, int $httpStatus, string $uri, \Exception $previous = null)
+    {
         $this->error = $error;
         parent::__construct($message, $httpStatus, $uri, $previous);
     }
-
-    public function getErrorCode(): string
+    public function getErrorCode() : string
     {
         return $this->error;
     }

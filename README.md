@@ -8,6 +8,15 @@ cd source/plugins/system/tgeoip
 composer install
 ```
 
+## Prefixing vendor namespaces
+- Install [php-scoper](https://github.com/humbug/php-scoper)
+- `cd` to `source/plugins/system/tgeoip`
+- Generate prefixed vendor code (default prefix: `Tassos\Vendor\`): `php-scoper add-prefix`
+- Replace the `vendor` folder with `build/vendor`, delete `build` folder
+- Generate new autoloader: `composer dump-autoload`
+
+php-scoper configuration file: `php-scoper.inc.php`
+
 ## Used by
 The TGeoIP plugin is currently being used by the following extensions
 

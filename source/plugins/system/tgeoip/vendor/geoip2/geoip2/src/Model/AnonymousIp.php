@@ -1,11 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Tassos\Vendor\GeoIp2\Model;
 
-namespace GeoIp2\Model;
-
-use GeoIp2\Util;
-
+use Tassos\Vendor\GeoIp2\Util;
 /**
  * This class provides the GeoIP2 Anonymous IP model.
  *
@@ -35,49 +33,40 @@ class AnonymousIp extends AbstractModel
      * @var bool
      */
     protected $isAnonymous;
-
     /**
      * @var bool
      */
     protected $isAnonymousVpn;
-
     /**
      * @var bool
      */
     protected $isHostingProvider;
-
     /**
      * @var bool
      */
     protected $isPublicProxy;
-
     /**
      * @var bool
      */
     protected $isResidentialProxy;
-
     /**
      * @var bool
      */
     protected $isTorExitNode;
-
     /**
      * @var string
      */
     protected $ipAddress;
-
     /**
      * @var string
      */
     protected $network;
-
     /**
      * @ignore
      */
     public function __construct(array $raw)
     {
         parent::__construct($raw);
-
         $this->isAnonymous = $this->get('is_anonymous');
         $this->isAnonymousVpn = $this->get('is_anonymous_vpn');
         $this->isHostingProvider = $this->get('is_hosting_provider');

@@ -1,11 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Tassos\Vendor\GeoIp2\Model;
 
-namespace GeoIp2\Model;
-
-use GeoIp2\Util;
-
+use Tassos\Vendor\GeoIp2\Util;
 /**
  * This class provides the GeoLite2 ASN model.
  *
@@ -26,22 +24,18 @@ class Asn extends AbstractModel
      * @var int|null
      */
     protected $autonomousSystemNumber;
-
     /**
      * @var string|null
      */
     protected $autonomousSystemOrganization;
-
     /**
      * @var string
      */
     protected $ipAddress;
-
     /**
      * @var string
      */
     protected $network;
-
     /**
      * @ignore
      */
@@ -49,8 +43,7 @@ class Asn extends AbstractModel
     {
         parent::__construct($raw);
         $this->autonomousSystemNumber = $this->get('autonomous_system_number');
-        $this->autonomousSystemOrganization =
-            $this->get('autonomous_system_organization');
+        $this->autonomousSystemOrganization = $this->get('autonomous_system_organization');
         $ipAddress = $this->get('ip_address');
         $this->ipAddress = $ipAddress;
         $this->network = Util::cidr($ipAddress, $this->get('prefix_len'));

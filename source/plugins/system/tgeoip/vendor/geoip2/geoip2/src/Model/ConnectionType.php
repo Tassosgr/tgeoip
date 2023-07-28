@@ -1,11 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Tassos\Vendor\GeoIp2\Model;
 
-namespace GeoIp2\Model;
-
-use GeoIp2\Util;
-
+use Tassos\Vendor\GeoIp2\Util;
 /**
  * This class provides the GeoIP2 Connection-Type model.
  *
@@ -24,24 +22,20 @@ class ConnectionType extends AbstractModel
      * @var string|null
      */
     protected $connectionType;
-
     /**
      * @var string
      */
     protected $ipAddress;
-
     /**
      * @var string
      */
     protected $network;
-
     /**
      * @ignore
      */
     public function __construct(array $raw)
     {
         parent::__construct($raw);
-
         $this->connectionType = $this->get('connection_type');
         $ipAddress = $this->get('ip_address');
         $this->ipAddress = $ipAddress;

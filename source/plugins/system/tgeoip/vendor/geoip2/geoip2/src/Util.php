@@ -1,8 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
-namespace GeoIp2;
+declare (strict_types=1);
+namespace Tassos\Vendor\GeoIp2;
 
 class Util
 {
@@ -13,24 +12,21 @@ class Util
      * @internal
      * @ignore
      */
-    public static function cidr(string $ipAddress, int $prefixLen): string
+    public static function cidr(string $ipAddress, int $prefixLen) : string
     {
-        $ipBytes = inet_pton($ipAddress);
-        $networkBytes = str_repeat("\0", \strlen($ipBytes));
-
+        $ipBytes = \inet_pton($ipAddress);
+        $networkBytes = \str_repeat("\x00", \strlen($ipBytes));
         $curPrefix = $prefixLen;
         for ($i = 0; $i < \strlen($ipBytes) && $curPrefix > 0; $i++) {
             $b = $ipBytes[$i];
             if ($curPrefix < 8) {
                 $shiftN = 8 - $curPrefix;
-                $b = \chr(0xFF & (\ord($b) >> $shiftN) << $shiftN);
+                $b = \chr(0xff & \ord($b) >> $shiftN << $shiftN);
             }
             $networkBytes[$i] = $b;
             $curPrefix -= 8;
         }
-
-        $network = inet_ntop($networkBytes);
-
-        return "$network/$prefixLen";
+        $network = \inet_ntop($networkBytes);
+        return "{$network}/{$prefixLen}";
     }
 }

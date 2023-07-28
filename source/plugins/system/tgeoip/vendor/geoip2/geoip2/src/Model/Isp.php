@@ -1,11 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Tassos\Vendor\GeoIp2\Model;
 
-namespace GeoIp2\Model;
-
-use GeoIp2\Util;
-
+use Tassos\Vendor\GeoIp2\Util;
 /**
  * This class provides the GeoIP2 ISP model.
  *
@@ -36,42 +34,34 @@ class Isp extends AbstractModel
      * @var int|null
      */
     protected $autonomousSystemNumber;
-
     /**
      * @var string|null
      */
     protected $autonomousSystemOrganization;
-
     /**
      * @var string|null
      */
     protected $isp;
-
     /**
      * @var string|null
      */
     protected $mobileCountryCode;
-
     /**
      * @var string|null
      */
     protected $mobileNetworkCode;
-
     /**
      * @var string|null
      */
     protected $organization;
-
     /**
      * @var string
      */
     protected $ipAddress;
-
     /**
      * @var string
      */
     protected $network;
-
     /**
      * @ignore
      */
@@ -79,13 +69,11 @@ class Isp extends AbstractModel
     {
         parent::__construct($raw);
         $this->autonomousSystemNumber = $this->get('autonomous_system_number');
-        $this->autonomousSystemOrganization =
-            $this->get('autonomous_system_organization');
+        $this->autonomousSystemOrganization = $this->get('autonomous_system_organization');
         $this->isp = $this->get('isp');
         $this->mobileCountryCode = $this->get('mobile_country_code');
         $this->mobileNetworkCode = $this->get('mobile_network_code');
         $this->organization = $this->get('organization');
-
         $ipAddress = $this->get('ip_address');
         $this->ipAddress = $ipAddress;
         $this->network = Util::cidr($ipAddress, $this->get('prefix_len'));

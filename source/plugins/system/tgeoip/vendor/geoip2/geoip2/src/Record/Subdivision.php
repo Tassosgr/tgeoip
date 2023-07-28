@@ -1,8 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
-namespace GeoIp2\Record;
+declare (strict_types=1);
+namespace Tassos\Vendor\GeoIp2\Record;
 
 /**
  * Contains data for the subdivisions associated with an IP address.
@@ -35,10 +34,5 @@ class Subdivision extends AbstractPlaceRecord
      *
      * @var array<string>
      */
-    protected $validAttributes = [
-        'confidence',
-        'geonameId',
-        'isoCode',
-        'names',
-    ];
+    protected $validAttributes = ['confidence', 'geonameId', 'isoCode', 'names'];
 }

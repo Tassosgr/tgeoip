@@ -1,8 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
-namespace GeoIp2\Record;
+declare (strict_types=1);
+namespace Tassos\Vendor\GeoIp2\Record;
 
 /**
  * Contains data for the continent record associated with an IP address.
@@ -28,9 +27,5 @@ class Continent extends AbstractPlaceRecord
      *
      * @var array<string>
      */
-    protected $validAttributes = [
-        'code',
-        'geonameId',
-        'names',
-    ];
+    protected $validAttributes = ['code', 'geonameId', 'names'];
 }

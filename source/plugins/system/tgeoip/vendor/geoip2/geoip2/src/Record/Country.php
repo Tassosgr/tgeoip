@@ -1,8 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
-namespace GeoIp2\Record;
+declare (strict_types=1);
+namespace Tassos\Vendor\GeoIp2\Record;
 
 /**
  * Contains data for the country record associated with an IP address.
@@ -34,11 +33,5 @@ class Country extends AbstractPlaceRecord
      *
      * @var array<string>
      */
-    protected $validAttributes = [
-        'confidence',
-        'geonameId',
-        'isInEuropeanUnion',
-        'isoCode',
-        'names',
-    ];
+    protected $validAttributes = ['confidence', 'geonameId', 'isInEuropeanUnion', 'isoCode', 'names'];
 }
