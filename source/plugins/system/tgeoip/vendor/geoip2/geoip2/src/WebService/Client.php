@@ -1,19 +1,19 @@
 <?php
 
 declare (strict_types=1);
-namespace TassosFramework\Vendor\GeoIp2\WebService;
+namespace Tassos\Vendor\GeoIp2\WebService;
 
-use TassosFramework\Vendor\GeoIp2\Exception\AddressNotFoundException;
-use TassosFramework\Vendor\GeoIp2\Exception\AuthenticationException;
-use TassosFramework\Vendor\GeoIp2\Exception\GeoIp2Exception;
-use TassosFramework\Vendor\GeoIp2\Exception\HttpException;
-use TassosFramework\Vendor\GeoIp2\Exception\InvalidRequestException;
-use TassosFramework\Vendor\GeoIp2\Exception\OutOfQueriesException;
-use TassosFramework\Vendor\GeoIp2\Model\City;
-use TassosFramework\Vendor\GeoIp2\Model\Country;
-use TassosFramework\Vendor\GeoIp2\Model\Insights;
-use TassosFramework\Vendor\GeoIp2\ProviderInterface;
-use TassosFramework\Vendor\MaxMind\WebService\Client as WsClient;
+use Tassos\Vendor\GeoIp2\Exception\AddressNotFoundException;
+use Tassos\Vendor\GeoIp2\Exception\AuthenticationException;
+use Tassos\Vendor\GeoIp2\Exception\GeoIp2Exception;
+use Tassos\Vendor\GeoIp2\Exception\HttpException;
+use Tassos\Vendor\GeoIp2\Exception\InvalidRequestException;
+use Tassos\Vendor\GeoIp2\Exception\OutOfQueriesException;
+use Tassos\Vendor\GeoIp2\Model\City;
+use Tassos\Vendor\GeoIp2\Model\Country;
+use Tassos\Vendor\GeoIp2\Model\Insights;
+use Tassos\Vendor\GeoIp2\ProviderInterface;
+use Tassos\Vendor\MaxMind\WebService\Client as WsClient;
 /**
  * This class provides a client API for all the GeoIP2 web services.
  * The services are Country, City Plus, and Insights. Each service returns
@@ -189,17 +189,17 @@ class Client implements ProviderInterface
         try {
             $service = (new \ReflectionClass($class))->getShortName();
             $body = $this->client->get('GeoIP2 ' . $service, $path);
-        } catch (\TassosFramework\Vendor\MaxMind\Exception\IpAddressNotFoundException $ex) {
+        } catch (\Tassos\Vendor\MaxMind\Exception\IpAddressNotFoundException $ex) {
             throw new AddressNotFoundException($ex->getMessage(), $ex->getStatusCode(), $ex);
-        } catch (\TassosFramework\Vendor\MaxMind\Exception\AuthenticationException $ex) {
+        } catch (\Tassos\Vendor\MaxMind\Exception\AuthenticationException $ex) {
             throw new AuthenticationException($ex->getMessage(), $ex->getStatusCode(), $ex);
-        } catch (\TassosFramework\Vendor\MaxMind\Exception\InsufficientFundsException $ex) {
+        } catch (\Tassos\Vendor\MaxMind\Exception\InsufficientFundsException $ex) {
             throw new OutOfQueriesException($ex->getMessage(), $ex->getStatusCode(), $ex);
-        } catch (\TassosFramework\Vendor\MaxMind\Exception\InvalidRequestException $ex) {
+        } catch (\Tassos\Vendor\MaxMind\Exception\InvalidRequestException $ex) {
             throw new InvalidRequestException($ex->getMessage(), $ex->getErrorCode(), $ex->getStatusCode(), $ex->getUri(), $ex);
-        } catch (\TassosFramework\Vendor\MaxMind\Exception\HttpException $ex) {
+        } catch (\Tassos\Vendor\MaxMind\Exception\HttpException $ex) {
             throw new HttpException($ex->getMessage(), $ex->getStatusCode(), $ex->getUri(), $ex);
-        } catch (\TassosFramework\Vendor\MaxMind\Exception\WebServiceException $ex) {
+        } catch (\Tassos\Vendor\MaxMind\Exception\WebServiceException $ex) {
             throw new GeoIp2Exception($ex->getMessage(), $ex->getCode(), $ex);
         }
         return new $class($body, $this->locales);

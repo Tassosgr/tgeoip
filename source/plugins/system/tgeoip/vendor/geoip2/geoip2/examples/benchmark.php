@@ -1,9 +1,9 @@
 <?php
 
-namespace TassosFramework\Vendor;
+namespace Tassos\Vendor;
 
 require __DIR__ . '/../vendor/autoload.php';
-use TassosFramework\Vendor\GeoIp2\Database\Reader;
+use Tassos\Vendor\GeoIp2\Database\Reader;
 \srand(0);
 $reader = new Reader('GeoIP2-City.mmdb');
 $count = 500000;
@@ -12,7 +12,7 @@ for ($i = 0; $i < $count; ++$i) {
     $ip = \long2ip(\rand(0, 2 ** 32 - 1));
     try {
         $t = $reader->city($ip);
-    } catch (\TassosFramework\Vendor\GeoIp2\Exception\AddressNotFoundException $e) {
+    } catch (\Tassos\Vendor\GeoIp2\Exception\AddressNotFoundException $e) {
     }
     if ($i % 10000 === 0) {
         echo $i . ' ' . $ip . "\n";

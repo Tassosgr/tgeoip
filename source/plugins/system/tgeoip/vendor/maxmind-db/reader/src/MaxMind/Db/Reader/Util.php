@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-namespace TassosFramework\Vendor\MaxMind\Db\Reader;
+namespace Tassos\Vendor\MaxMind\Db\Reader;
 
 class Util
 {

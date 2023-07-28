@@ -12,8 +12,8 @@
 
 defined('_JEXEC') or die;
 
-use TassosFramework\Vendor\GeoIp2\Database\Reader;
-use TassosFramework\Vendor\splitbrain\PHPArchive\Tar;
+use Tassos\Vendor\GeoIp2\Database\Reader;
+use Tassos\Vendor\splitbrain\PHPArchive\Tar;
 use NRFramework\User;
 
 jimport('joomla.filesystem.file');
@@ -267,7 +267,7 @@ class TGeoIP
 					$this->lookups[$ip] = null;
 				}
 			}
-			catch (TassosFramework\Vendor\GeoIp2\Exception\AddressNotFoundException $e)
+			catch (Tassos\Vendor\GeoIp2\Exception\AddressNotFoundException $e)
 			{
 				$this->lookups[$ip] = false;
 			}

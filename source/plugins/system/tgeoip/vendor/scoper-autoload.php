@@ -28,10 +28,10 @@ if (!function_exists('humbug_phpscoper_expose_class')) {
         }
     }
 }
-humbug_phpscoper_expose_class('ComposerAutoloaderInit2994eebabe3e6b260b60cab24a9b085e', 'TassosFramework\Vendor\ComposerAutoloaderInit2994eebabe3e6b260b60cab24a9b085e');
+humbug_phpscoper_expose_class('ComposerAutoloaderInit087ac1c88c9dd7b872309175c7c60d7d', 'Tassos\Vendor\ComposerAutoloaderInit087ac1c88c9dd7b872309175c7c60d7d');
 
 // Function aliases. For more information see:
 // https://github.com/humbug/php-scoper/blob/master/docs/further-reading.md#function-aliases
-if (!function_exists('mmdb_autoload')) { function mmdb_autoload() { return \TassosFramework\Vendor\mmdb_autoload(...func_get_args()); } }
+if (!function_exists('mmdb_autoload')) { function mmdb_autoload() { return \Tassos\Vendor\mmdb_autoload(...func_get_args()); } }
 
 return $loader;

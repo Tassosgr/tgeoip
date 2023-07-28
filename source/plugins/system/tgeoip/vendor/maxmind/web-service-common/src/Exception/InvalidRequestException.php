@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-namespace TassosFramework\Vendor\MaxMind\Exception;
+namespace Tassos\Vendor\MaxMind\Exception;
 
 /**
  * Thrown when a MaxMind web service returns an error relating to the request.

@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-namespace TassosFramework\Vendor\GeoIp2\Record;
+namespace Tassos\Vendor\GeoIp2\Record;
 
 /**
  * City-level data associated with an IP address.

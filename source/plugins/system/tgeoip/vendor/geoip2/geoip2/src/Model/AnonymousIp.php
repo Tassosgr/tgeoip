@@ -1,9 +1,9 @@
 <?php
 
 declare (strict_types=1);
-namespace TassosFramework\Vendor\GeoIp2\Model;
+namespace Tassos\Vendor\GeoIp2\Model;
 
-use TassosFramework\Vendor\GeoIp2\Util;
+use Tassos\Vendor\GeoIp2\Util;
 /**
  * This class provides the GeoIP2 Anonymous IP model.
  *

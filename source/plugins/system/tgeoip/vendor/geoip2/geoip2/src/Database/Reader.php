@@ -1,21 +1,21 @@
 <?php
 
 declare (strict_types=1);
-namespace TassosFramework\Vendor\GeoIp2\Database;
+namespace Tassos\Vendor\GeoIp2\Database;
 
-use TassosFramework\Vendor\GeoIp2\Exception\AddressNotFoundException;
-use TassosFramework\Vendor\GeoIp2\Model\AbstractModel;
-use TassosFramework\Vendor\GeoIp2\Model\AnonymousIp;
-use TassosFramework\Vendor\GeoIp2\Model\Asn;
-use TassosFramework\Vendor\GeoIp2\Model\City;
-use TassosFramework\Vendor\GeoIp2\Model\ConnectionType;
-use TassosFramework\Vendor\GeoIp2\Model\Country;
-use TassosFramework\Vendor\GeoIp2\Model\Domain;
-use TassosFramework\Vendor\GeoIp2\Model\Enterprise;
-use TassosFramework\Vendor\GeoIp2\Model\Isp;
-use TassosFramework\Vendor\GeoIp2\ProviderInterface;
-use TassosFramework\Vendor\MaxMind\Db\Reader as DbReader;
-use TassosFramework\Vendor\MaxMind\Db\Reader\InvalidDatabaseException;
+use Tassos\Vendor\GeoIp2\Exception\AddressNotFoundException;
+use Tassos\Vendor\GeoIp2\Model\AbstractModel;
+use Tassos\Vendor\GeoIp2\Model\AnonymousIp;
+use Tassos\Vendor\GeoIp2\Model\Asn;
+use Tassos\Vendor\GeoIp2\Model\City;
+use Tassos\Vendor\GeoIp2\Model\ConnectionType;
+use Tassos\Vendor\GeoIp2\Model\Country;
+use Tassos\Vendor\GeoIp2\Model\Domain;
+use Tassos\Vendor\GeoIp2\Model\Enterprise;
+use Tassos\Vendor\GeoIp2\Model\Isp;
+use Tassos\Vendor\GeoIp2\ProviderInterface;
+use Tassos\Vendor\MaxMind\Db\Reader as DbReader;
+use Tassos\Vendor\MaxMind\Db\Reader\InvalidDatabaseException;
 /**
  * Instances of this class provide a reader for the GeoIP2 database format.
  * IP addresses can be looked up using the database specific methods.

@@ -1,9 +1,9 @@
 <?php
 
 declare (strict_types=1);
-namespace TassosFramework\Vendor\MaxMind\WebService\Http;
+namespace Tassos\Vendor\MaxMind\WebService\Http;
 
-use TassosFramework\Vendor\MaxMind\Exception\HttpException;
+use Tassos\Vendor\MaxMind\Exception\HttpException;
 /**
  * This class is for internal use only. Semantic versioning does not not apply.
  *

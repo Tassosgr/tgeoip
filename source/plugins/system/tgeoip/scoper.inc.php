@@ -26,7 +26,7 @@ return [
     // will be generated instead.
     //
     // For more see: https://github.com/humbug/php-scoper/blob/master/docs/configuration.md#prefix
-    'prefix' => "TassosFramework\\Vendor",
+    'prefix' => "Tassos\\Vendor",
 
     // The base output directory for the prefixed files.
     // This will be overridden by the 'output-dir' command line option if present.
@@ -92,6 +92,7 @@ return [
         // '~^PHPUnit\\\\Framework$~',    // The whole namespace PHPUnit\Framework (but not sub-namespaces)
         // '~^$~',                        // The root namespace only
         // '',                            // Any namespace
+        '_\1'                             // Weird string patterns that look like namespaces
     ],
     'exclude-classes' => [
         // 'ReflectionClassConstant',

@@ -8,10 +8,10 @@
  * For the full copyright and license information, please view
  * the LICENSE file that was distributed with this source code.
  */
-namespace TassosFramework\Vendor\Composer\CaBundle;
+namespace Tassos\Vendor\Composer\CaBundle;
 
-use TassosFramework\Vendor\Psr\Log\LoggerInterface;
-use TassosFramework\Vendor\Symfony\Component\Process\PhpProcess;
+use Tassos\Vendor\Psr\Log\LoggerInterface;
+use Tassos\Vendor\Symfony\Component\Process\PhpProcess;
 /**
  * @author Chris Smith <chris@cs278.org>
  * @author Jordi Boggiano <j.boggiano@seld.be>
@@ -219,7 +219,7 @@ class CaBundle
             return self::$useOpensslParse = \true;
         }
         // Symfony Process component is missing so we assume it is unsafe at this point
-        if (!\class_exists('TassosFramework\\Vendor\\Symfony\\Component\\Process\\PhpProcess')) {
+        if (!\class_exists('Tassos\\Vendor\\Symfony\\Component\\Process\\PhpProcess')) {
             return self::$useOpensslParse = \false;
         }
         // This is where things get crazy, because distros backport security

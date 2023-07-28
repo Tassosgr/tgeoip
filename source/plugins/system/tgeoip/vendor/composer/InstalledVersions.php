@@ -9,10 +9,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace TassosFramework\Vendor\Composer;
+namespace Tassos\Vendor\Composer;
 
-use TassosFramework\Vendor\Composer\Autoload\ClassLoader;
-use TassosFramework\Vendor\Composer\Semver\VersionParser;
+use Tassos\Vendor\Composer\Autoload\ClassLoader;
+use Tassos\Vendor\Composer\Semver\VersionParser;
 /**
  * This class is copied in every Composer installed project and available to all
  *
@@ -277,7 +277,7 @@ class InstalledVersions
     private static function getInstalled()
     {
         if (null === self::$canGetVendors) {
-            self::$canGetVendors = \method_exists('TassosFramework\\Vendor\\Composer\\Autoload\\ClassLoader', 'getRegisteredLoaders');
+            self::$canGetVendors = \method_exists('Tassos\\Vendor\\Composer\\Autoload\\ClassLoader', 'getRegisteredLoaders');
         }
         $installed = array();
         if (self::$canGetVendors) {

@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-namespace TassosFramework\Vendor\GeoIp2\Model;
+namespace Tassos\Vendor\GeoIp2\Model;
 
 /**
  * Model class for the data returned by GeoIP2 Insights web service.

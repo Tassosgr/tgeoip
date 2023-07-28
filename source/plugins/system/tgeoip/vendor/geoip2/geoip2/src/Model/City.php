@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-namespace TassosFramework\Vendor\GeoIp2\Model;
+namespace Tassos\Vendor\GeoIp2\Model;
 
 /**
  * Model class for the data returned by City Plus web service and City
@@ -60,9 +60,9 @@ class City extends Country
     public function __construct(array $raw, array $locales = ['en'])
     {
         parent::__construct($raw, $locales);
-        $this->city = new \TassosFramework\Vendor\GeoIp2\Record\City($this->get('city'), $locales);
-        $this->location = new \TassosFramework\Vendor\GeoIp2\Record\Location($this->get('location'));
-        $this->postal = new \TassosFramework\Vendor\GeoIp2\Record\Postal($this->get('postal'));
+        $this->city = new \Tassos\Vendor\GeoIp2\Record\City($this->get('city'), $locales);
+        $this->location = new \Tassos\Vendor\GeoIp2\Record\Location($this->get('location'));
+        $this->postal = new \Tassos\Vendor\GeoIp2\Record\Postal($this->get('postal'));
         $this->createSubdivisions($raw, $locales);
     }
     private function createSubdivisions(array $raw, array $locales) : void
@@ -71,7 +71,7 @@ class City extends Country
             return;
         }
         foreach ($raw['subdivisions'] as $sub) {
-            $this->subdivisions[] = new \TassosFramework\Vendor\GeoIp2\Record\Subdivision($sub, $locales);
+            $this->subdivisions[] = new \Tassos\Vendor\GeoIp2\Record\Subdivision($sub, $locales);
         }
     }
     /**
@@ -98,8 +98,8 @@ class City extends Country
         }
         return parent::__isset($attr);
     }
-    private function mostSpecificSubdivision() : \TassosFramework\Vendor\GeoIp2\Record\Subdivision
+    private function mostSpecificSubdivision() : \Tassos\Vendor\GeoIp2\Record\Subdivision
     {
-        return empty($this->subdivisions) ? new \TassosFramework\Vendor\GeoIp2\Record\Subdivision([], $this->locales) : \end($this->subdivisions);
+        return empty($this->subdivisions) ? new \Tassos\Vendor\GeoIp2\Record\Subdivision([], $this->locales) : \end($this->subdivisions);
     }
 }

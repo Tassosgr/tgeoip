@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-namespace TassosFramework\Vendor;
+namespace Tassos\Vendor;
 
 /**
  * PSR-4 autoloader implementation for the MaxMind\DB namespace.

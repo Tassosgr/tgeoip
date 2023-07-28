@@ -36,7 +36,7 @@
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "TassosFramework\\Vendor\\Composer\\CaBundle\\": "src"
+                    "Tassos\\Vendor\\Composer\\CaBundle\\": "src"
                 }
             },
             "notification-url": "https:\/\/packagist.org\/downloads\/",
@@ -111,7 +111,7 @@
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "TassosFramework\\Vendor\\GeoIp2\\": "src"
+                    "Tassos\\Vendor\\GeoIp2\\": "src"
                 }
             },
             "notification-url": "https:\/\/packagist.org\/downloads\/",
@@ -175,7 +175,7 @@
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "TassosFramework\\Vendor\\MaxMind\\Db\\": "src\/MaxMind\/Db"
+                    "Tassos\\Vendor\\MaxMind\\Db\\": "src\/MaxMind\/Db"
                 }
             },
             "notification-url": "https:\/\/packagist.org\/downloads\/",
@@ -236,8 +236,8 @@
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "TassosFramework\\Vendor\\MaxMind\\Exception\\": "src\/Exception",
-                    "TassosFramework\\Vendor\\MaxMind\\WebService\\": "src\/WebService"
+                    "Tassos\\Vendor\\MaxMind\\Exception\\": "src\/Exception",
+                    "Tassos\\Vendor\\MaxMind\\WebService\\": "src\/WebService"
                 }
             },
             "notification-url": "https:\/\/packagist.org\/downloads\/",
@@ -293,7 +293,7 @@
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "TassosFramework\\Vendor\\splitbrain\\PHPArchive\\": "src"
+                    "Tassos\\Vendor\\splitbrain\\PHPArchive\\": "src"
                 }
             },
             "notification-url": "https:\/\/packagist.org\/downloads\/",

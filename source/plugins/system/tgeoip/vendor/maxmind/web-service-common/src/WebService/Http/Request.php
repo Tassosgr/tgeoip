@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-namespace TassosFramework\Vendor\MaxMind\WebService\Http;
+namespace Tassos\Vendor\MaxMind\WebService\Http;
 
 /**
  * Interface Request.

@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-namespace TassosFramework\Vendor\GeoIp2\Record;
+namespace Tassos\Vendor\GeoIp2\Record;
 
 /**
  * Contains data for the country record associated with an IP address.

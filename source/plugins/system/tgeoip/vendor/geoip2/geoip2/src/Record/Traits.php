@@ -1,9 +1,9 @@
 <?php
 
 declare (strict_types=1);
-namespace TassosFramework\Vendor\GeoIp2\Record;
+namespace Tassos\Vendor\GeoIp2\Record;
 
-use TassosFramework\Vendor\GeoIp2\Util;
+use Tassos\Vendor\GeoIp2\Util;
 /**
  * Contains data for the traits record associated with an IP address.
  *

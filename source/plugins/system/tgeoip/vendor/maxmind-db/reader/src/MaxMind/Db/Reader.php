@@ -1,16 +1,16 @@
 <?php
 
 declare (strict_types=1);
-namespace TassosFramework\Vendor\MaxMind\Db;
+namespace Tassos\Vendor\MaxMind\Db;
 
 use ArgumentCountError;
 use BadMethodCallException;
 use Exception;
 use InvalidArgumentException;
-use TassosFramework\Vendor\MaxMind\Db\Reader\Decoder;
-use TassosFramework\Vendor\MaxMind\Db\Reader\InvalidDatabaseException;
-use TassosFramework\Vendor\MaxMind\Db\Reader\Metadata;
-use TassosFramework\Vendor\MaxMind\Db\Reader\Util;
+use Tassos\Vendor\MaxMind\Db\Reader\Decoder;
+use Tassos\Vendor\MaxMind\Db\Reader\InvalidDatabaseException;
+use Tassos\Vendor\MaxMind\Db\Reader\Metadata;
+use Tassos\Vendor\MaxMind\Db\Reader\Util;
 use UnexpectedValueException;
 /**
  * Instances of this class provide a reader for the MaxMind DB format. IP

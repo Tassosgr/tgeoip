@@ -1,6 +1,6 @@
 <?php
 
-namespace TassosFramework\Vendor\splitbrain\PHPArchive;
+namespace Tassos\Vendor\splitbrain\PHPArchive;
 
 /**
  * The archive is unreadable

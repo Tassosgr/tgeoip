@@ -1,7 +1,7 @@
 <?php
 
 declare (strict_types=1);
-namespace TassosFramework\Vendor\GeoIp2;
+namespace Tassos\Vendor\GeoIp2;
 
 interface ProviderInterface
 {

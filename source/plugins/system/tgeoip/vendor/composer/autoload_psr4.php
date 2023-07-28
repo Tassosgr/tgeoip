@@ -6,10 +6,10 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'TassosFramework\\Vendor\\splitbrain\\PHPArchive\\' => array($vendorDir . '/splitbrain/php-archive/src'),
-    'TassosFramework\\Vendor\\MaxMind\\WebService\\' => array($vendorDir . '/maxmind/web-service-common/src/WebService'),
-    'TassosFramework\\Vendor\\MaxMind\\Exception\\' => array($vendorDir . '/maxmind/web-service-common/src/Exception'),
-    'TassosFramework\\Vendor\\MaxMind\\Db\\' => array($vendorDir . '/maxmind-db/reader/src/MaxMind/Db'),
-    'TassosFramework\\Vendor\\GeoIp2\\' => array($vendorDir . '/geoip2/geoip2/src'),
-    'TassosFramework\\Vendor\\Composer\\CaBundle\\' => array($vendorDir . '/composer/ca-bundle/src'),
+    'Tassos\\Vendor\\splitbrain\\PHPArchive\\' => array($vendorDir . '/splitbrain/php-archive/src'),
+    'Tassos\\Vendor\\MaxMind\\WebService\\' => array($vendorDir . '/maxmind/web-service-common/src/WebService'),
+    'Tassos\\Vendor\\MaxMind\\Exception\\' => array($vendorDir . '/maxmind/web-service-common/src/Exception'),
+    'Tassos\\Vendor\\MaxMind\\Db\\' => array($vendorDir . '/maxmind-db/reader/src/MaxMind/Db'),
+    'Tassos\\Vendor\\GeoIp2\\' => array($vendorDir . '/geoip2/geoip2/src'),
+    'Tassos\\Vendor\\Composer\\CaBundle\\' => array($vendorDir . '/composer/ca-bundle/src'),
 );

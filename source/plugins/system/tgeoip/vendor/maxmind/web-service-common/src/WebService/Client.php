@@ -1,18 +1,18 @@
 <?php
 
 declare (strict_types=1);
-namespace TassosFramework\Vendor\MaxMind\WebService;
+namespace Tassos\Vendor\MaxMind\WebService;
 
-use TassosFramework\Vendor\Composer\CaBundle\CaBundle;
-use TassosFramework\Vendor\MaxMind\Exception\AuthenticationException;
-use TassosFramework\Vendor\MaxMind\Exception\HttpException;
-use TassosFramework\Vendor\MaxMind\Exception\InsufficientFundsException;
-use TassosFramework\Vendor\MaxMind\Exception\InvalidInputException;
-use TassosFramework\Vendor\MaxMind\Exception\InvalidRequestException;
-use TassosFramework\Vendor\MaxMind\Exception\IpAddressNotFoundException;
-use TassosFramework\Vendor\MaxMind\Exception\PermissionRequiredException;
-use TassosFramework\Vendor\MaxMind\Exception\WebServiceException;
-use TassosFramework\Vendor\MaxMind\WebService\Http\RequestFactory;
+use Tassos\Vendor\Composer\CaBundle\CaBundle;
+use Tassos\Vendor\MaxMind\Exception\AuthenticationException;
+use Tassos\Vendor\MaxMind\Exception\HttpException;
+use Tassos\Vendor\MaxMind\Exception\InsufficientFundsException;
+use Tassos\Vendor\MaxMind\Exception\InvalidInputException;
+use Tassos\Vendor\MaxMind\Exception\InvalidRequestException;
+use Tassos\Vendor\MaxMind\Exception\IpAddressNotFoundException;
+use Tassos\Vendor\MaxMind\Exception\PermissionRequiredException;
+use Tassos\Vendor\MaxMind\Exception\WebServiceException;
+use Tassos\Vendor\MaxMind\WebService\Http\RequestFactory;
 /**
  * This class is not intended to be used directly by an end-user of a
  * MaxMind web service. Please use the appropriate client API for the service
