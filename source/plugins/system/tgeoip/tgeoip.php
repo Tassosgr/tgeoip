@@ -12,7 +12,9 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-class plgSystemTGeoIP extends JPlugin
+use Joomla\CMS\Plugin\CMSPlugin;
+
+class plgSystemTGeoIP extends CMSPlugin
 {
     /**
      *  Joomla Application Object
