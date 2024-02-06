@@ -13,7 +13,14 @@
 // No direct access to this file
 defined('_JEXEC') or die;
 
-class JFormFieldTG_UpdateButton extends JFormField
+use Joomla\CMS\Form\FormField;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Uri\Uri;
+
+class JFormFieldTG_UpdateButton extends FormField
 {
     /**
      *  Method to render the input field
@@ -24,17 +31,17 @@ class JFormFieldTG_UpdateButton extends JFormField
     {   
         if (!NRFramework\Extension::pluginIsEnabled('tgeoip'))
         {
-            return '<span class="label label-warning" style="margin-top:4px;">' . JText::_('PLG_SYSTEM_TGEOIP_ENABLE_PLUGIN') . '</span>';
+            return '<span class="label label-warning" style="margin-top:4px;">' . Text::_('PLG_SYSTEM_TGEOIP_ENABLE_PLUGIN') . '</span>';
         }
 
-        JHtml::stylesheet('plg_system_nrframework/joomla4.css', ['relative' => true, 'version' => 'auto']);
+        HTMLHelper::stylesheet('plg_system_nrframework/joomla4.css', ['relative' => true, 'version' => 'auto']);
 
-        $ajaxURL = JURI::base() . 'index.php?option=com_ajax&format=raw&plugin=tgeoip&task=update&license_key=USER_LICENSE_KEY&' . JSession::getFormToken() . '=1';
+        $ajaxURL = Uri::base() . 'index.php?option=com_ajax&format=raw&plugin=tgeoip&task=update&license_key=USER_LICENSE_KEY&' . Session::getFormToken() . '=1';
 
-        JText::script('PLG_SYSTEM_TGEOIP_DATABASE_UPDATED');
-        JText::script('PLG_SYSTEM_TGEOIP_PLEASE_WAIT');
+        Text::script('PLG_SYSTEM_TGEOIP_DATABASE_UPDATED');
+        Text::script('PLG_SYSTEM_TGEOIP_PLEASE_WAIT');
 
-        JFactory::getDocument()->addScriptDeclaration('
+        Factory::getDocument()->addScriptDeclaration('
             document.addEventListener("DOMContentLoaded", function() {
                 document.addEventListener("click", function(e) {
                     var btn = e.target.closest(".geo button");
@@ -56,7 +63,7 @@ class JFormFieldTG_UpdateButton extends JFormField
                     
                     // before request
                     alert.style.display = "none";
-                    btn.querySelector("span").innerHTML = Joomla.JText._("PLG_SYSTEM_TGEOIP_PLEASE_WAIT");
+                    btn.querySelector("span").innerHTML = Joomla.Text._("PLG_SYSTEM_TGEOIP_PLEASE_WAIT");
                     btn.classList.add("btn-working");
 
                     fetch(url,
@@ -66,7 +73,7 @@ class JFormFieldTG_UpdateButton extends JFormField
                     .then(function(res){ return res.text(); })
                     .then(function(response){
                         if (response == "1") {
-                            alert.innerHTML = Joomla.JText._("PLG_SYSTEM_TGEOIP_DATABASE_UPDATED");
+                            alert.innerHTML = Joomla.Text._("PLG_SYSTEM_TGEOIP_DATABASE_UPDATED");
                             alert.style.display = "block";
                             alert.classList.remove("alert-danger");
                             alert.classList.add("alert-success");
@@ -86,7 +93,7 @@ class JFormFieldTG_UpdateButton extends JFormField
             });
         ');
 
-        JFactory::getDocument()->addStyleDeclaration('
+        Factory::getDocument()->addStyleDeclaration('
             .geo .btn-working {
                 pointer-events:none;
             }
@@ -113,9 +120,9 @@ class JFormFieldTG_UpdateButton extends JFormField
         return '
             <div class="geo">
                 <div class="alert alert-danger"></div>
-                <button class="btn btn-primary" data-label="' . JText::_('PLG_SYSTEM_TGEOIP_UPDATE_DATABASE') . '">
+                <button class="btn btn-primary" data-label="' . Text::_('PLG_SYSTEM_TGEOIP_UPDATE_DATABASE') . '">
                     <em class="icon-refresh"></em>
-                    <span>' . JText::_('PLG_SYSTEM_TGEOIP_UPDATE_DATABASE') . '</span>
+                    <span>' . Text::_('PLG_SYSTEM_TGEOIP_UPDATE_DATABASE') . '</span>
                 </button>            
             </div>';
     }

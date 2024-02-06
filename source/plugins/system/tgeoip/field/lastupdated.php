@@ -14,7 +14,11 @@
 
 defined('_JEXEC') or die;
 
-class JFormFieldTG_LastUpdated extends JFormField
+use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+
+class JFormFieldTG_LastUpdated extends FormField
 {
     /**
      *  Method to render the input field
@@ -25,11 +29,11 @@ class JFormFieldTG_LastUpdated extends JFormField
     {   
         $file = JPATH_PLUGINS . '/system/tgeoip/db/GeoLite2-City.mmdb';
 
-        if (!JFile::exists($file))
+        if (!File::exists($file))
         {
             return '';
         }
 
-        return JFactory::getDate(@filemtime($file))->format('d M Y H:m');
+        return Factory::getDate(@filemtime($file))->format('d M Y H:m');
     }
 }

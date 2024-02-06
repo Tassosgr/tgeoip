@@ -15,9 +15,14 @@ defined('_JEXEC') or die;
 use Tassos\Vendor\GeoIp2\Database\Reader;
 use Tassos\Vendor\splitbrain\PHPArchive\Tar;
 use NRFramework\User;
-
-jimport('joomla.filesystem.file');
-jimport('joomla.filesystem.folder');
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Registry\Registry;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Http\HttpFactory;
 
 class TGeoIP
 {
@@ -91,7 +96,7 @@ class TGeoIP
 		// Check we have a valid GeoLite2 database
 		$filePath = $this->getDBPath();
 
-		if (!JFile::exists($filePath))
+		if (!File::exists($filePath))
 		{
 			$this->reader = null;
 		}
@@ -139,8 +144,8 @@ class TGeoIP
 			return $this->key;
 		}
 
-		$plugin = JPluginHelper::getPlugin('system', 'tgeoip');
-		$params = new JRegistry($plugin->params);
+		$plugin = PluginHelper::getPlugin('system', 'tgeoip');
+		$params = new Registry($plugin->params);
 
 		return $params->get('license_key', '');
 	}
@@ -367,9 +372,9 @@ class TGeoIP
 
 		// Write the downloaded file to a temporary location
 		$target = $this->getTempFolder() . $this->DBFileName . '.tar.gz';
-		if (JFile::write($target, $compressed) === false)
+		if (File::write($target, $compressed) === false)
 		{
-			return JText::_('PLG_SYSTEM_TGEOIP_ERR_WRITEFAILED');
+			return Text::_('PLG_SYSTEM_TGEOIP_ERR_WRITEFAILED');
 		}
 
 		// Unzip database to the same temporary location
@@ -397,20 +402,20 @@ class TGeoIP
 		}
 
 		// Move database file to the correct location
-		if (!JFile::move($this->getTempFolder() . $database_file, $this->getDBPath()))
+		if (!File::move($this->getTempFolder() . $database_file, $this->getDBPath()))
 		{
-			return JText::sprintf('PLG_SYSTEM_TGEOIP_ERR_CANTWRITE', $this->getDBPath());
+			return Text::sprintf('PLG_SYSTEM_TGEOIP_ERR_CANTWRITE', $this->getDBPath());
 		}
 
 		// Make sure the database is readable
 		if (!$this->dbIsValid())
 		{
-			return JText::_('PLG_SYSTEM_TGEOIP_ERR_INVALIDDB');
+			return Text::_('PLG_SYSTEM_TGEOIP_ERR_INVALIDDB');
 		}
 
 		// Delete leftovers
-		JFile::delete($target);
-		JFolder::delete($this->getTempFolder() . $extracted_folder);
+		File::delete($target);
+		Folder::delete($this->getTempFolder() . $extracted_folder);
 
 		return true;
 	}
@@ -450,10 +455,10 @@ class TGeoIP
 
 		if (empty($license_key))
 		{
-			throw new \Exception(JText::_('PLG_SYSTEM_TGEOIP_LICENSE_KEY_EMPTY') . '&nbsp;<a href="' . $this->TGeoIPEnableDocURL . '" target="_blank">' . JText::_('PLG_SYSTEM_TGEOIP_ENABLE_DOC_LINK_LABEL') . '</a>');
+			throw new \Exception(Text::_('PLG_SYSTEM_TGEOIP_LICENSE_KEY_EMPTY') . '&nbsp;<a href="' . $this->TGeoIPEnableDocURL . '" target="_blank">' . Text::_('PLG_SYSTEM_TGEOIP_ENABLE_DOC_LINK_LABEL') . '</a>');
 		}
 
-		$http = JHttpFactory::getHttp();
+		$http = HttpFactory::getHttp();
 
 		$this->DBUpdateURL = str_replace('USER_LICENSE_KEY', $license_key, $this->DBUpdateURL);
 
@@ -464,25 +469,25 @@ class TGeoIP
 		// 401 is thrown if you have incorrect credentials or wrong license key
 		if ($response->code == 401)
 		{
-			throw new \Exception(JText::_('PLG_SYSTEM_TGEOIP_ERR_WRONG_LICENSE_KEY'));
+			throw new \Exception(Text::_('PLG_SYSTEM_TGEOIP_ERR_WRONG_LICENSE_KEY'));
 		}
 		
 		// Generic check on valid HTTP code
 		if ($response->code > 299)
 		{
-			throw new \Exception(JText::_('PLG_SYSTEM_TGEOIP_ERR_MAXMIND_GENERIC'));
+			throw new \Exception(Text::_('PLG_SYSTEM_TGEOIP_ERR_MAXMIND_GENERIC'));
 		}
 
 		// An empty file indicates a problem with MaxMind's servers
 		if (empty($compressed))
 		{
-			throw new \Exception(JText::_('PLG_SYSTEM_TGEOIP_ERR_EMPTYDOWNLOAD'));
+			throw new \Exception(Text::_('PLG_SYSTEM_TGEOIP_ERR_EMPTYDOWNLOAD'));
 		}
 
 		// Sometimes you get a rate limit exceeded
 		if (stristr($compressed, 'Rate limited exceeded') !== false)
 		{
-			throw new \Exception(JText::_('PLG_SYSTEM_TGEOIP_ERR_MAXMINDRATELIMIT'));
+			throw new \Exception(Text::_('PLG_SYSTEM_TGEOIP_ERR_MAXMINDRATELIMIT'));
 		}
 
 		return $compressed;
@@ -497,19 +502,19 @@ class TGeoIP
 	{
 		$ds = DIRECTORY_SEPARATOR;
 
-		$tmpdir = JFactory::getConfig()->get('tmp_path');
+		$tmpdir = Factory::getConfig()->get('tmp_path');
 
 		if (realpath($tmpdir) == $ds . 'tmp')
 		{
 			$tmpdir = JPATH_SITE . $ds . 'tmp';
 		}
 		
-		elseif (!JFolder::exists($tmpdir))
+		elseif (!Folder::exists($tmpdir))
 		{
 			$tmpdir = JPATH_SITE . $ds . 'tmp';
 		}
 
-		return JPath::clean(trim($tmpdir) . $ds);
+		return Path::clean(trim($tmpdir) . $ds);
 	}
 
 	/**

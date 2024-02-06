@@ -13,9 +13,13 @@
 // No direct access to this file
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Uri\Uri;
 use NRFramework\User;
 
-class JFormFieldTG_Lookup extends JFormField
+class JFormFieldTG_Lookup extends FormField
 {
     /**
      *  GeoIP Class
@@ -32,9 +36,9 @@ class JFormFieldTG_Lookup extends JFormField
     public function getInput()
     {   
         // JavaScript
-        $ajaxURL = JURI::base() . 'index.php?option=com_ajax&format=raw&plugin=tgeoip&task=get&' . JSession::getFormToken() . '=1';
+        $ajaxURL = Uri::base() . 'index.php?option=com_ajax&format=raw&plugin=tgeoip&task=get&' . Session::getFormToken() . '=1';
 
-        JFactory::getDocument()->addScriptDeclaration('
+        Factory::getDocument()->addScriptDeclaration('
             document.addEventListener("DOMContentLoaded", function() {
                 document.addEventListener("click", function(e) {
                     var btn = e.target.closest(".tGeoIPtest button");

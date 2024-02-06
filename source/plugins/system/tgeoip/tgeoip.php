@@ -13,6 +13,8 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Language\Text;
 
 class plgSystemTGeoIP extends CMSPlugin
 {
@@ -67,7 +69,7 @@ class plgSystemTGeoIP extends CMSPlugin
      */
     public function onAjaxTgeoip()
     {
-        JSession::checkToken('request') or die('Invalid Token');
+        Session::checkToken('request') or die('Invalid Token');
 
         // Only in admin
         if (!$this->app->isClient('administrator'))
@@ -90,7 +92,7 @@ class plgSystemTGeoIP extends CMSPlugin
 
                 if ($result === true)
                 {
-                    $msg = JText::_('PLG_SYSTEM_TGEOIP_DATABASE_UPDATED');
+                    $msg = Text::_('PLG_SYSTEM_TGEOIP_DATABASE_UPDATED');
                     $msgType = 'message';
                 } else
                 {
