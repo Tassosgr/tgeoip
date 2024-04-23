@@ -96,7 +96,7 @@ class TGeoIP
 		// Check we have a valid GeoLite2 database
 		$filePath = $this->getDBPath();
 
-		if (!File::exists($filePath))
+		if (!file_exists($filePath))
 		{
 			$this->reader = null;
 		}
@@ -509,7 +509,7 @@ class TGeoIP
 			$tmpdir = JPATH_SITE . $ds . 'tmp';
 		}
 		
-		elseif (!Folder::exists($tmpdir))
+		elseif (!is_dir($tmpdir))
 		{
 			$tmpdir = JPATH_SITE . $ds . 'tmp';
 		}
