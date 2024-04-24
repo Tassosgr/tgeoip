@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
+use Joomla\Filesystem\File;
 
 class JFormFieldTG_LastUpdated extends FormField
 {
@@ -29,7 +29,7 @@ class JFormFieldTG_LastUpdated extends FormField
     {   
         $file = JPATH_PLUGINS . '/system/tgeoip/db/GeoLite2-City.mmdb';
 
-        if (!File::exists($file))
+        if (!file_exists($file))
         {
             return '';
         }
