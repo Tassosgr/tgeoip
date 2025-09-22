@@ -17,11 +17,11 @@ use Tassos\Vendor\splitbrain\PHPArchive\Tar;
 use NRFramework\User;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Folder;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
+use Joomla\Filesystem\Path;
 use Joomla\CMS\Http\HttpFactory;
 
 class TGeoIP
@@ -96,7 +96,7 @@ class TGeoIP
 		// Check we have a valid GeoLite2 database
 		$filePath = $this->getDBPath();
 
-		if (!File::exists($filePath))
+		if (!file_exists($filePath))
 		{
 			$this->reader = null;
 		}
@@ -509,7 +509,7 @@ class TGeoIP
 			$tmpdir = JPATH_SITE . $ds . 'tmp';
 		}
 		
-		elseif (!Folder::exists($tmpdir))
+		elseif (!is_dir($tmpdir))
 		{
 			$tmpdir = JPATH_SITE . $ds . 'tmp';
 		}
